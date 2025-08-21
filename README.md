@@ -1,5 +1,5 @@
 # Priorilists
-To-do app using local storage (cookies)
+To-do app using the browser's local storage
 
 Important note: such a storage method is not secure, and the user's lists are deleted if the browser's cache is cleared. (This is merely a school exercise.)
 
