@@ -1,0 +1,452 @@
+/* Alt+35 : # 
+Unicode version: Alt+x0035 : # */
+/* TO DO: 
+font family that matches font in logo
+4 modal dialogs in HTML file + styling
+Any missing ACCESSIBLE rollover effects in modals and dynamic sections (two sets: one for light mode and one for dark mode)
+more responsiveness 
+*/
+
+html {
+    --clr-base-almost-white: #F8FFFD; /* For background in light mode */
+    --clr-base-bright-blue: #6DFFE7; /* E.g. for logo and priority 1 in dark mode */
+    --clr-base-medium-blue: #9EFDEE; /* For priority 2 in dark mode */
+    --clr-base-light-blue: #C0FFF5; /* For priority 3 in dark mode */
+    --clr-base-very-light-blue: #E5FFFB; /* For priority 4 in dark mode */
+    --clr-base-transparent-greyish-blue: #CFDEDA; /* Transparent greyish blue for modal background colour */
+    --clr-accent-dark-purple: #6F55A0; /* For nav and global footer in light and dark mode and for logo in light mode */
+    --clr-accent-purple-high-intensity: #8B62D9; /* For background in dark mode and priority 1 in light mode */
+    --clr-accent-purple-medium-high-intensity: #AD82FF; /* For priority 2 in light mode */
+    --clr-accent-purple-medium-intensity: #C4A5FF; /* For priority 3 in light mode */
+    --clr-accent-purple-low-intensity: #DBC7FF; /* For priority 4 in light mode */
+    --clr-CTA-yellow: #FFF646;
+    --clr-real-black: #000000; 
+
+    font-size: 12px;
+}
+
+@media (min-width: 425px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    background-color: var(--clr-base-almost-white);
+    color: var(--clr-real-black);
+    /* The inline margin is space for the scroll bar, particularly on mobiles. */
+    margin-inline: 1.33rem;
+}
+
+main a {
+    color: var(--clr-real-black);
+}
+
+h1 {
+    color: var(--clr-accent-dark-purple);
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+h2 {
+    font-weight: 400;
+    font-size: 1rem;
+    /* Standard browser margins overridden to limit distance between h2 and the border above. */
+    margin-block: .5rem;
+}
+
+/* #region Logo in light mode: SVG and its children */
+/* .logo-by-Marie-Pierre-Lessard is a SVG file */
+/* TO DO: on small mobiles: 40px or 3.33rem; eventually replace by more responsive measurements 
+Probably set sizes in header in vw. */
+/* Note: I thought that I had to change the measurements in .logo__rectangle1-by-Marie-Pierre-Lessard and .logo__rectangle2-by-Marie-Pierre-Lessard, but removing the inline sizing of the SVG element is sufficient to control the size of the logo. */
+.logo-by-Marie-Pierre-Lessard {
+    height: 3.33rem;
+    width: 3.33rem;
+    /* padding-inline and padding-top: are to improve look of outline */
+    padding-inline: .5rem;
+    padding-top: .25rem;
+} 
+
+.logo__rectangle1-by-Marie-Pierre-Lessard {
+    fill: var(--clr-base-almost-white);
+}
+
+.logo__rectangle2-by-Marie-Pierre-Lessard {
+    stroke: var(--clr-accent-dark-purple);
+}
+
+.logo__path1-by-Marie-Pierre-Lessard {
+    fill: var(--clr-accent-dark-purple);
+}
+
+.logo__path2-by-Marie-Pierre-Lessard {
+    fill: var(--clr-accent-dark-purple);    
+}
+
+.logo__path3-by-Marie-Pierre-Lessard {
+    fill: var(--clr-accent-dark-purple);    
+}
+
+.logo__path4-by-Marie-Pierre-Lessard {
+    fill: var(--clr-accent-dark-purple);    
+}
+
+.logo__path5-by-Marie-Pierre-Lessard {
+    stroke: var(--clr-accent-dark-purple);    
+}
+
+.logo-by-Marie-Pierre-Lessard line {
+    stroke: var(--clr-accent-dark-purple);     
+}
+/* #endregion about logo in light mode */
+
+/* TO DO: for small mobiles: 36px, i.e. 3rem; eventually replace by more responsive measurements */
+/* Help icon smaller than logo because it has a thicker border, and it otherwise looks wrong. */
+.help-icon-by-Marie-Pierre-Lessard {
+    width: 3rem;
+    height: 3rem;
+    /* padding-top: is to improve look of outline */
+    padding-top: .25rem;
+    fill: var(--clr-accent-dark-purple);
+    cursor: help;
+}
+
+.global-header-by-Marie-Pierre-Lessard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* The colours of the main navigation DO NOT change in dark mode */
+.main-nav-container-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-accent-dark-purple);
+    border: 1px solid var(--clr-real-black);
+
+    position: sticky;
+    top: 0;
+}
+
+/* .main-nav-by-Marie-Pierre-Lessard is a UL element */
+.main-nav-by-Marie-Pierre-Lessard {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    border: 1px solid var(--clr-real-black);
+}
+
+.main-nav-by-Marie-Pierre-Lessard li {
+    height: 2rem;
+    border: 1px solid var(--clr-base-almost-white);
+    text-align: center;
+}
+
+.main-nav-by-Marie-Pierre-Lessard a {
+    /* display: block; is required to make links fill the whole width and height of the parent */
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* align-content centers the text vertically inside of the a element. */
+    align-content: center;
+    text-decoration: none;
+    color: var(--clr-CTA-yellow);
+}
+
+.urgent-important-matrix-by-Marie-Pierre-Lessard {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.33rem;
+    margin-block: 1.33rem;
+}
+
+@media (min-width: 768px) {
+    .urgent-important-matrix-by-Marie-Pierre-Lessard {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, auto);
+    }
+}
+
+/* .priority-by-Marie-Pierre-Lessard class represents sections */
+.priority-by-Marie-Pierre-Lessard {
+    border: 1px solid var(--clr-real-black);
+    border-radius: 9px;
+    padding-inline: .5rem;
+    min-height: 3.5rem;
+}
+
+.priority--1-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-accent-purple-high-intensity);
+}
+
+.priority--2-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-accent-purple-medium-high-intensity);
+}
+
+.priority--3-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-accent-purple-medium-intensity); 
+}
+
+.priority--4-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-accent-purple-low-intensity);    
+}
+
+/* Standard browser margins of ul and li overridden: 
+- to limit distance between dynamic elements and the h2 and the border below;
+- to put bullets closer to the right-hand border. 
+TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
+.priority-by-Marie-Pierre-Lessard ul {
+    padding-inline: 2rem;
+    margin-block: 0;
+}
+.priority-by-Marie-Pierre-Lessard li {
+    margin-block: .5rem;
+}
+
+.intro-msg-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-CTA-yellow);
+    border-radius: 9px;
+    margin-block: 1.33rem;
+    padding-block: .5rem;
+    padding-inline: .5rem;
+}
+
+.copyright-by-Marie-Pierre-Lessard {
+    margin-block: 1.33rem;
+    /* font-size: .66rem; */
+}
+
+/* The colours of the global footer DO NOT change in dark mode */
+.global-footer-by-Marie-Pierre-Lessard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--clr-real-black);
+
+    position: sticky;
+    bottom: 0;
+}
+
+.global-footer-by-Marie-Pierre-Lessard button {
+    background-color: var(--clr-accent-dark-purple);
+    border: 1px solid var(--clr-base-almost-white);
+    color: var(--clr-CTA-yellow);
+    padding-top: .4rem;
+    padding-bottom: .2rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.global-footer-by-Marie-Pierre-Lessard button svg {
+    fill: var(--clr-CTA-yellow);
+}
+
+.global-footer-by-Marie-Pierre-Lessard button svg path {
+    height: 1rem; 
+}
+
+/* This is to make the slash big enough to divide the two SVGs properly, otherwise the SVGs look like they are floating above the baseline of the slash. 
+When I checked how big the slashes had to be, the size of the SVGs was set at 1rem. 
+I don't know why the slash has to be proportionately bigger on small phones, when the size of 1rem is smaller. 
+*/
+.global-footer-by-Marie-Pierre-Lessard button span {
+    font-size: 2.33rem;
+}
+
+@media (min-width: 425px) {
+    .global-footer-by-Marie-Pierre-Lessard button span {
+        font-size: 1.66rem;
+    }
+}
+
+.main-nav-by-Marie-Pierre-Lessard a:hover,
+.main-nav-by-Marie-Pierre-Lessard a:focus {
+    text-decoration: underline;
+    /* --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. */
+    color: var(--clr-real-black);
+}
+
+.main-nav-by-Marie-Pierre-Lessard li:first-of-type a:hover,
+.main-nav-by-Marie-Pierre-Lessard li:first-of-type a:focus {
+    background-color: var(--clr-accent-purple-high-intensity);
+}
+
+.main-nav-by-Marie-Pierre-Lessard li:nth-of-type(2) a:hover,
+.main-nav-by-Marie-Pierre-Lessard li:nth-of-type(2) a:focus {
+    background-color: var(--clr-accent-purple-medium-high-intensity);
+}
+
+.main-nav-by-Marie-Pierre-Lessard li:nth-of-type(3) a:hover,
+.main-nav-by-Marie-Pierre-Lessard li:nth-of-type(3) a:focus {
+    background-color: var(--clr-accent-purple-medium-intensity);
+}
+
+.main-nav-by-Marie-Pierre-Lessard li:last-of-type a:hover,
+.main-nav-by-Marie-Pierre-Lessard li:last-of-type a:focus {
+    background-color: var(--clr-accent-purple-low-intensity);
+}
+
+.main-nav-by-Marie-Pierre-Lessard a:active {
+    text-decoration: none;
+    /* MAYBE TO DO: --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. 
+    For Daltonians, it might look like the text is becoming invisible for a split second, but it's close to the flicker that I see... */
+    color: var(--clr-CTA-yellow);
+}
+
+main a:hover,
+main a:focus {
+    color: var(--clr-accent-dark-purple);
+}
+
+main a:active {
+    color: var(--clr-CTA-yellow);    
+}
+
+.global-footer-by-Marie-Pierre-Lessard button:hover,
+.global-footer-by-Marie-Pierre-Lessard button:focus {
+    /* TO DO: can Daltonians still see --clr-CTA-yellow on that background? */
+    background-color: var(--clr-accent-purple-high-intensity);
+}
+
+.global-footer-by-Marie-Pierre-Lessard button:active {
+    /* MAYBE TO DO: can Daltonians still see --clr-CTA-yellow on that background? 
+    For Daltonians, it might look like the icons are becoming invisible for a split second. */
+    background-color: var(--clr-accent-purple-medium-intensity);
+}
+/* #region */
+/* Dark-mode classes have to be defined at the bottom of CSS file or at least below each affected light-mode styling, or the light-mode styling won't be overwritten when toggling the dark-mode class to true. 
+MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> function. That would be an alternative to what I already wrote below. See: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark */
+
+/* .dark-mode-by-Marie-Pierre-Lessard applies to body element  */
+.dark-mode-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-accent-purple-high-intensity);
+}
+
+/* #region Logo in dark mode: SVG and its children */
+/* .logo-by-Marie-Pierre-Lessard is a SVG file */
+.dark-mode-by-Marie-Pierre-Lessard .logo__rectangle1-by-Marie-Pierre-Lessard {
+    fill: var(--clr-accent-purple-high-intensity);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .logo__rectangle2-by-Marie-Pierre-Lessard {
+    stroke: var(--clr-base-bright-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .logo__path1-by-Marie-Pierre-Lessard {
+    fill: var(--clr-base-bright-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .logo__path2-by-Marie-Pierre-Lessard {
+    fill: var(--clr-base-bright-blue);    
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .logo__path3-by-Marie-Pierre-Lessard {
+    fill: var(--clr-base-bright-blue);    
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .logo__path4-by-Marie-Pierre-Lessard {
+    fill: var(--clr-base-bright-blue);    
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .logo__path5-by-Marie-Pierre-Lessard {
+    stroke: var(--clr-base-bright-blue);    
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard line {
+    stroke: var(--clr-base-bright-blue);     
+}
+/* #endregion about logo in dark mode */
+
+.dark-mode-by-Marie-Pierre-Lessard h1 {
+    color: var(--clr-base-bright-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard {
+    fill: var(--clr-base-bright-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li, 
+.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button {
+    border: 1px solid var(--clr-accent-purple-medium-high-intensity);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .priority--1-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-base-bright-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .priority--2-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-base-medium-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .priority--3-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-base-light-blue); 
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .priority--4-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-base-very-light-blue);    
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard a:hover,
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard a:focus {
+    text-decoration: underline;
+    /* --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. */
+    color: var(--clr-real-black);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:first-of-type a:hover,
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:first-of-type a:focus {
+    background-color: var(--clr-base-bright-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:nth-of-type(2) a:hover,
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:nth-of-type(2) a:focus {
+    background-color: var(--clr-base-medium-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:nth-of-type(3) a:hover,
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:nth-of-type(3) a:focus {
+    background-color: var(--clr-base-light-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:last-of-type a:hover,
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:last-of-type a:focus {
+    background-color: var(--clr-base-very-light-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard a:active {
+    text-decoration: none;
+    /* MAYBE TO DO: --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. 
+    For Daltonians, it might look like the text is becoming invisible for a split second. */
+    color: var(--clr-CTA-yellow);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard main a:hover,
+.dark-mode-by-Marie-Pierre-Lessard main a:focus {
+    color: var(--clr-base-bright-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard main a:active {
+    color: var(--clr-CTA-yellow);    
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:hover,
+.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:focus {
+    background-color: var(--clr-CTA-yellow);
+    color: var(--clr-accent-dark-purple);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:hover svg,
+.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:focus svg {
+    fill: var(--clr-accent-dark-purple);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:active {
+    /* TO DO: can Daltonians see the same flicker (compared to yellow)? */
+    background-color: var(--clr-accent-purple-low-intensity);
+}
+/* #endregion about dark mode */
+
