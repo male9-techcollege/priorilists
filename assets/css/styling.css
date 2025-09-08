@@ -13,7 +13,7 @@ html {
     --clr-base-medium-blue: #9EFDEE; /* For priority 2 in dark mode */
     --clr-base-light-blue: #C0FFF5; /* For priority 3 in dark mode */
     --clr-base-very-light-blue: #E5FFFB; /* For priority 4 in dark mode */
-    --clr-base-transparent-greyish-blue: #CFDEDA; /* Transparent greyish blue for modal background colour */
+    --clr-base-transparent-greyish-blue: rgba(207, 222, 218, 0.8); /* Transparent greyish blue for modal background colour */
     --clr-accent-dark-purple: #6F55A0; /* For nav and global footer in light and dark mode and for logo in light mode */
     --clr-accent-purple-high-intensity: #8B62D9; /* For background in dark mode and priority 1 in light mode */
     --clr-accent-purple-medium-high-intensity: #AD82FF; /* For priority 2 in light mode */
@@ -38,21 +38,45 @@ body {
     margin-inline: 1.33rem;
 }
 
+header,
+main {
+    margin-inline: 1rem;
+}
+
 main a {
     color: var(--clr-real-black);
 }
 
-h1 {
+h1,
+h2 {
     color: var(--clr-accent-dark-purple);
+}
+
+h1 {
     font-weight: 700;
     font-size: 2rem;
 }
 
-h2 {
+.priority-by-Marie-Pierre-Lessard h2 {
     font-weight: 400;
     font-size: 1rem;
+    color: var(--clr-real-black);
     /* Standard browser margins overridden to limit distance between h2 and the border above. */
     margin-block: .5rem;
+}
+
+select > option {
+    font-weight: 700;
+}
+
+select > optgroup {
+    font-style: italic;
+    background-color: var(--clr-accent-purple-low-intensity);
+}
+
+select > optgroup > option {
+    /* Otherwise, the styling of the optgroup is inherited. */
+    font-style: normal;
 }
 
 /* #region Logo in light mode: SVG and its children */
@@ -102,7 +126,8 @@ Probably set sizes in header in vw. */
 /* #endregion about logo in light mode */
 
 /* TO DO: for small mobiles: 36px, i.e. 3rem; eventually replace by more responsive measurements */
-/* Help icon smaller than logo because it has a thicker border, and it otherwise looks wrong. */
+/* Help icon smaller than logo because it has a thicker border, and it otherwise looks wrong. 
+Visually, the thicker border gives more weight/more emphasis to the right side of the header.*/
 .help-icon-by-Marie-Pierre-Lessard {
     width: 3rem;
     height: 3rem;
@@ -216,9 +241,21 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
     padding-inline: .5rem;
 }
 
+.intro-msg-by-Marie-Pierre-Lessard .align-svg-with-text-by-Marie-Pierre-Lessard {
+    /* When I applied display: flex; to the span elements that contain parentheses (also in span elements), each with a SVG to align with parentheses according to the same principle that I discovered for the middle footer button, the parent span element behaved like a block-level element. It was necessary to choose display: inline-flex; to make sure that the span element was not treated like a block-level element.
+    The footer button (also an inline element) did not start behaving like a block element when I turned it into a flexbox, but maybe that is because browsers are fault-tolerant, so I replaced display: flex; by display: inline-flex; in the footer as well. 
+    See the following source about display: inline-*, such as display: inline-flex; and display: inline-grid; : 
+    https://stackoverflow.com/questions/24313271/display-property-differences-for-inline-something */
+    display: inline-flex;
+    flex-direction: row;
+}
+
+.intro-msg-by-Marie-Pierre-Lessard svg {
+    height: 1rem;
+}
+
 .copyright-by-Marie-Pierre-Lessard {
     margin-block: 1.33rem;
-    /* font-size: .66rem; */
 }
 
 /* The colours of the global footer DO NOT change in dark mode */
@@ -231,14 +268,26 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
     bottom: 0;
 }
 
-.global-footer-by-Marie-Pierre-Lessard button {
+.global-footer-by-Marie-Pierre-Lessard button,
+.modal-by-Marie-Pierre-Lessard button {
     background-color: var(--clr-accent-dark-purple);
     border: 1px solid var(--clr-base-almost-white);
     color: var(--clr-CTA-yellow);
-    padding-top: .4rem;
-    padding-bottom: .2rem;
-    text-align: center;
+    padding-block: .5rem;
     cursor: pointer;
+}
+
+.global-footer-by-Marie-Pierre-Lessard button {
+    /* Without display: flex; (or display: inline-flex;) and align-items: center; the SVGs sat higher than the slash, i.e. the SVGs were floating above the baseline. 
+    The text has to be in a span element, otherwise this doesn't work. 
+    I couldn't find how to do this on the Internet, so I discovered the solution through experimentation. 
+    This is the same problem as when you try to put an image and an input (two inline items) next to each other, but the picture sits higher than the input unless one uses display: flex; to align them. 
+    
+    Interestingly, it looks like the Figma people might not know how to do this because Figma places the icons higher than the slash, and there is no way to adjust this in Figma. */
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .global-footer-by-Marie-Pierre-Lessard button svg {
@@ -246,27 +295,131 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
 }
 
 .global-footer-by-Marie-Pierre-Lessard button svg path {
-    height: 1rem; 
+    height: 2rem; 
 }
 
-/* This is to make the slash big enough to divide the two SVGs properly, otherwise the SVGs look like they are floating above the baseline of the slash. 
-When I checked how big the slashes had to be, the size of the SVGs was set at 1rem. 
-I don't know why the slash has to be proportionately bigger on small phones, when the size of 1rem is smaller. 
-*/
 .global-footer-by-Marie-Pierre-Lessard button span {
-    font-size: 2.33rem;
+    font-size: 2rem;
 }
 
-@media (min-width: 425px) {
-    .global-footer-by-Marie-Pierre-Lessard button span {
-        font-size: 1.66rem;
-    }
+/* TO DO styling of dialogs 
+- form el. with same bc as light/dark mode
+- buttons all positioned 
+*/
+.modal-by-Marie-Pierre-Lessard {
+    position: relative;
+
+    background-color: var(--clr-base-almost-white);
+    border: none;
+    width: 85%;
+    padding: 0;
+}
+
+.modal-by-Marie-Pierre-Lessard::backdrop {
+    background-color: var(--clr-base-transparent-greyish-blue);
+}
+
+.modal--cat-edit-del-by-Marie-Pierre-Lessard,
+.modal--task-edit-del-by-Marie-Pierre-Lessard {
+    padding: 2rem;
+}
+
+.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard {
+    height: 3rem;
+    width: 3rem;
+
+    position: absolute;
+    top: 0;
+    right: 0; 
+    /* Previous option, before positioning: 
+    display: block;
+    justify-self: right; */
+}
+
+.modal-by-Marie-Pierre-Lessard fieldset {
+    border: none;
+    padding-top: .5rem;
+    padding-bottom: 3rem;
+    padding-inline: 1rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-by-Marie-Pierre-Lessard label {
+    margin-top: .5rem;
+    margin-bottom: .2rem;
+}
+
+.modal-by-Marie-Pierre-Lessard input,
+.modal-by-Marie-Pierre-Lessard textarea,
+.modal-by-Marie-Pierre-Lessard select {
+    margin-top: .2rem;
+    margin-bottom: .5rem;
+    border-radius: 9px;
+}
+
+.modal__warning-by-Marie-Pierre-Lessard {
+    margin-top: .5rem;
+    margin-bottom: 0;
+}
+
+.modal-by-Marie-Pierre-Lessard form footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* #region Rollover effects */
+.logo-by-Marie-Pierre-Lessard:hover .logo__rectangle2-by-Marie-Pierre-Lessard,
+.logo-by-Marie-Pierre-Lessard:hover .logo__path5-by-Marie-Pierre-Lessard,
+.logo-by-Marie-Pierre-Lessard:hover line {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    stroke: var(--clr-accent-purple-high-intensity);
+}
+
+.logo-by-Marie-Pierre-Lessard:hover .logo__path1-by-Marie-Pierre-Lessard,
+.logo-by-Marie-Pierre-Lessard:hover .logo__path2-by-Marie-Pierre-Lessard,
+.logo-by-Marie-Pierre-Lessard:hover .logo__path3-by-Marie-Pierre-Lessard,
+.logo-by-Marie-Pierre-Lessard:hover .logo__path4-by-Marie-Pierre-Lessard {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    fill: var(--clr-accent-purple-high-intensity);
+}
+
+.logo-by-Marie-Pierre-Lessard:active .logo__rectangle2-by-Marie-Pierre-Lessard,
+.logo-by-Marie-Pierre-Lessard:active .logo__path5-by-Marie-Pierre-Lessard,
+.logo-by-Marie-Pierre-Lessard:active line {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    stroke: var(--clr-accent-purple-low-intensity);
+}
+
+.logo-by-Marie-Pierre-Lessard:active .logo__path1-by-Marie-Pierre-Lessard,
+.logo-by-Marie-Pierre-Lessard:active .logo__path2-by-Marie-Pierre-Lessard,
+.logo-by-Marie-Pierre-Lessard:active .logo__path3-by-Marie-Pierre-Lessard,
+.logo-by-Marie-Pierre-Lessard:active .logo__path4-by-Marie-Pierre-Lessard {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    fill: var(--clr-accent-purple-high-intensity);
+}
+
+.help-icon-by-Marie-Pierre-Lessard:hover {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    fill: var(--clr-accent-purple-high-intensity);
+}
+
+.help-icon-by-Marie-Pierre-Lessard:active {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    fill: var(--clr-accent-purple-low-intensity);
 }
 
 .main-nav-by-Marie-Pierre-Lessard a:hover,
 .main-nav-by-Marie-Pierre-Lessard a:focus {
     text-decoration: underline;
-    /* --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. */
+    /* --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. 
+    Bright blue doesn't work either. */
     color: var(--clr-real-black);
 }
 
@@ -307,17 +460,22 @@ main a:active {
 }
 
 .global-footer-by-Marie-Pierre-Lessard button:hover,
-.global-footer-by-Marie-Pierre-Lessard button:focus {
+.global-footer-by-Marie-Pierre-Lessard button:focus,
+.modal-by-Marie-Pierre-Lessard button:hover,
+.modal-by-Marie-Pierre-Lessard button:focus {
     /* TO DO: can Daltonians still see --clr-CTA-yellow on that background? */
     background-color: var(--clr-accent-purple-high-intensity);
 }
 
-.global-footer-by-Marie-Pierre-Lessard button:active {
+.global-footer-by-Marie-Pierre-Lessard button:active,
+.modal-by-Marie-Pierre-Lessard button:active {
     /* MAYBE TO DO: can Daltonians still see --clr-CTA-yellow on that background? 
     For Daltonians, it might look like the icons are becoming invisible for a split second. */
     background-color: var(--clr-accent-purple-medium-intensity);
 }
-/* #region */
+/* #endregion Rollover effects */
+
+/* #region Dark mode */
 /* Dark-mode classes have to be defined at the bottom of CSS file or at least below each affected light-mode styling, or the light-mode styling won't be overwritten when toggling the dark-mode class to true. 
 MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> function. That would be an alternative to what I already wrote below. See: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark */
 
@@ -361,8 +519,13 @@ MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> func
 }
 /* #endregion about logo in dark mode */
 
-.dark-mode-by-Marie-Pierre-Lessard h1 {
+.dark-mode-by-Marie-Pierre-Lessard h1,
+.dark-mode-by-Marie-Pierre-Lessard h2 {
     color: var(--clr-base-bright-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .priority-by-Marie-Pierre-Lessard h2 {
+    color: var(--clr-real-black);
 }
 
 .dark-mode-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard {
@@ -370,7 +533,8 @@ MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> func
 }
 
 .dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li, 
-.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button {
+.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button,
+.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard button {
     border: 1px solid var(--clr-accent-purple-medium-high-intensity);
 }
 
@@ -390,11 +554,57 @@ MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> func
     background-color: var(--clr-base-very-light-blue);    
 }
 
+.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard {
+    background-color: var(--clr-accent-purple-high-intensity);
+}
+
+/* #region Rollover effects in dark mode */
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__rectangle2-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path5-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover line {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    stroke: var(--clr-base-light-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path1-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path2-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path3-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path4-by-Marie-Pierre-Lessard {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    fill: var(--clr-base-light-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__rectangle2-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path5-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active line {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    stroke: var(--clr-CTA-yellow);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path1-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path2-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path3-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path4-by-Marie-Pierre-Lessard {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    fill: var(--clr-base-light-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard:hover {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    fill: var(--clr-base-light-blue);
+}
+
+.dark-mode-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard:active {
+    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    fill: var(--clr-CTA-yellow);
+}
+
 .dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard a:hover,
 .dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard a:focus {
     text-decoration: underline;
-    /* --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. */
-    color: var(--clr-real-black);
+    /* --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. 
+    */
+    color: var(--clr-accent-dark-purple);
 }
 
 .dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:first-of-type a:hover,
@@ -434,7 +644,9 @@ MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> func
 }
 
 .dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:hover,
-.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:focus {
+.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:focus,
+.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard button:hover, 
+.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard button:focus {
     background-color: var(--clr-CTA-yellow);
     color: var(--clr-accent-dark-purple);
 }
@@ -444,9 +656,11 @@ MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> func
     fill: var(--clr-accent-dark-purple);
 }
 
-.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:active {
+.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:active,
+.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard button:active {
     /* TO DO: can Daltonians see the same flicker (compared to yellow)? */
     background-color: var(--clr-accent-purple-low-intensity);
 }
+/* #endregion about rollover effects in dark mode */
 /* #endregion about dark mode */
 
