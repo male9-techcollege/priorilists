@@ -1,11 +1,11 @@
 /* Alt+35 : # 
 Unicode version: Alt+x0035 : # */
-/* TO DO: 
-font family that matches font in logo
-4 modal dialogs in HTML file + styling
-Any missing ACCESSIBLE rollover effects in modals and dynamic sections (two sets: one for light mode and one for dark mode)
-more responsiveness 
+/* MAYBE TO DO: 
+Any missing ACCESSIBLE rollover effects in modals and dynamic sections? (two sets: one for light mode and one for dark mode)
+More responsiveness 
 */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 html {
     --clr-base-almost-white: #F8FFFD; /* For background in light mode */
@@ -23,6 +23,7 @@ html {
     --clr-real-black: #000000; 
 
     font-size: 12px;
+    font-family: Inter, sans-serif;
 }
 
 @media (min-width: 425px) {
@@ -43,12 +44,14 @@ main {
     margin-inline: 1rem;
 }
 
-main a {
+main a,
+.modal-by-Marie-Pierre-Lessard a {
     color: var(--clr-real-black);
 }
 
 h1,
-h2 {
+h2,
+h3 {
     color: var(--clr-accent-dark-purple);
 }
 
@@ -81,7 +84,7 @@ select > optgroup > option {
 
 /* #region Logo in light mode: SVG and its children */
 /* .logo-by-Marie-Pierre-Lessard is a SVG file */
-/* TO DO: on small mobiles: 40px or 3.33rem; eventually replace by more responsive measurements 
+/* MAYBE TO DO: on small mobiles: 40px or 3.33rem; eventually replace by more responsive measurements 
 Probably set sizes in header in vw. */
 /* Note: I thought that I had to change the measurements in .logo__rectangle1-by-Marie-Pierre-Lessard and .logo__rectangle2-by-Marie-Pierre-Lessard, but removing the inline sizing of the SVG element is sufficient to control the size of the logo. */
 .logo-by-Marie-Pierre-Lessard {
@@ -125,7 +128,7 @@ Probably set sizes in header in vw. */
 }
 /* #endregion about logo in light mode */
 
-/* TO DO: for small mobiles: 36px, i.e. 3rem; eventually replace by more responsive measurements */
+/* MAYBE TO DO: for small mobiles: 36px, i.e. 3rem; eventually replace by more responsive measurements */
 /* Help icon smaller than logo because it has a thicker border, and it otherwise looks wrong. 
 Visually, the thicker border gives more weight/more emphasis to the right side of the header.*/
 .help-icon-by-Marie-Pierre-Lessard {
@@ -135,6 +138,11 @@ Visually, the thicker border gives more weight/more emphasis to the right side o
     padding-top: .25rem;
     fill: var(--clr-accent-dark-purple);
     cursor: help;
+}
+
+.help-btn-by-Marie-Pierre-Lessard {
+    border: none;
+    background-color: transparent;
 }
 
 .global-header-by-Marie-Pierre-Lessard {
@@ -254,6 +262,10 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
     height: 1rem;
 }
 
+.help-by-Marie-Pierre-Lessard {
+    margin-block: 1.33rem;
+}
+
 .copyright-by-Marie-Pierre-Lessard {
     margin-block: 1.33rem;
 }
@@ -302,17 +314,17 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
     font-size: 2rem;
 }
 
-/* TO DO styling of dialogs 
-- form el. with same bc as light/dark mode
-- buttons all positioned 
-*/
 .modal-by-Marie-Pierre-Lessard {
     position: relative;
 
     background-color: var(--clr-base-almost-white);
     border: none;
-    width: 85%;
+    width: 84%;
     padding: 0;
+}
+
+.modal--help-by-Marie-Pierre-Lessard {
+    margin-block: 1.33rem;
 }
 
 .modal-by-Marie-Pierre-Lessard::backdrop {
@@ -320,7 +332,8 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
 }
 
 .modal--cat-edit-del-by-Marie-Pierre-Lessard,
-.modal--task-edit-del-by-Marie-Pierre-Lessard {
+.modal--task-edit-del-by-Marie-Pierre-Lessard, 
+.modal--help-by-Marie-Pierre-Lessard {
     padding: 2rem;
 }
 
@@ -334,6 +347,12 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
     /* Previous option, before positioning: 
     display: block;
     justify-self: right; */
+}
+
+.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard svg {
+    height: 2rem;
+    width: 2rem;
+    fill: var(--clr-CTA-yellow);
 }
 
 .modal-by-Marie-Pierre-Lessard fieldset {
@@ -375,10 +394,10 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
 }
 
 /* #region Rollover effects */
+/* I deleted the a parent of the logo, so I am hiding its rollover effects. I am keeping the styling in case I change my mind because this was time-consuming. 
 .logo-by-Marie-Pierre-Lessard:hover .logo__rectangle2-by-Marie-Pierre-Lessard,
 .logo-by-Marie-Pierre-Lessard:hover .logo__path5-by-Marie-Pierre-Lessard,
 .logo-by-Marie-Pierre-Lessard:hover line {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
     stroke: var(--clr-accent-purple-high-intensity);
 }
 
@@ -386,14 +405,12 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
 .logo-by-Marie-Pierre-Lessard:hover .logo__path2-by-Marie-Pierre-Lessard,
 .logo-by-Marie-Pierre-Lessard:hover .logo__path3-by-Marie-Pierre-Lessard,
 .logo-by-Marie-Pierre-Lessard:hover .logo__path4-by-Marie-Pierre-Lessard {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
     fill: var(--clr-accent-purple-high-intensity);
 }
 
 .logo-by-Marie-Pierre-Lessard:active .logo__rectangle2-by-Marie-Pierre-Lessard,
 .logo-by-Marie-Pierre-Lessard:active .logo__path5-by-Marie-Pierre-Lessard,
 .logo-by-Marie-Pierre-Lessard:active line {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
     stroke: var(--clr-accent-purple-low-intensity);
 }
 
@@ -401,17 +418,17 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
 .logo-by-Marie-Pierre-Lessard:active .logo__path2-by-Marie-Pierre-Lessard,
 .logo-by-Marie-Pierre-Lessard:active .logo__path3-by-Marie-Pierre-Lessard,
 .logo-by-Marie-Pierre-Lessard:active .logo__path4-by-Marie-Pierre-Lessard {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
     fill: var(--clr-accent-purple-high-intensity);
 }
+*/
 
 .help-icon-by-Marie-Pierre-Lessard:hover {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    /* For some reason, the colour of the SVG doesn't change on focus. */
     fill: var(--clr-accent-purple-high-intensity);
 }
 
 .help-icon-by-Marie-Pierre-Lessard:active {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    /* For some reason, the colour of the SVG doesn't change on focus. */
     fill: var(--clr-accent-purple-low-intensity);
 }
 
@@ -445,17 +462,24 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
 
 .main-nav-by-Marie-Pierre-Lessard a:active {
     text-decoration: none;
-    /* MAYBE TO DO: --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. 
-    For Daltonians, it might look like the text is becoming invisible for a split second, but it's close to the flicker that I see... */
+    /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
     color: var(--clr-CTA-yellow);
 }
 
 main a:hover,
-main a:focus {
+main a:focus, 
+.modal-by-Marie-Pierre-Lessard a:hover,
+.modal-by-Marie-Pierre-Lessard a:focus {
     color: var(--clr-accent-dark-purple);
 }
 
-main a:active {
+.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:hover svg,
+.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:focus svg {
+    fill: var(--clr-CTA-yellow);
+}
+
+main a:active, 
+.modal-by-Marie-Pierre-Lessard a:active {
     color: var(--clr-CTA-yellow);    
 }
 
@@ -463,21 +487,28 @@ main a:active {
 .global-footer-by-Marie-Pierre-Lessard button:focus,
 .modal-by-Marie-Pierre-Lessard button:hover,
 .modal-by-Marie-Pierre-Lessard button:focus {
-    /* TO DO: can Daltonians still see --clr-CTA-yellow on that background? */
-    background-color: var(--clr-accent-purple-high-intensity);
+    /* Daltonians cannot see text in --clr-CTA-yellow on a --clr-accent-purple-high-intensity background, so the buttons have to turn yellow in both light and dark mode. */
+    background-color: var(--clr-CTA-yellow);
+    color: var(--clr-accent-dark-purple);
+}
+
+.global-footer-by-Marie-Pierre-Lessard button:hover svg,
+.global-footer-by-Marie-Pierre-Lessard button:focus svg,
+.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:hover svg,
+.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:focus svg {
+    fill: var(--clr-accent-dark-purple);
 }
 
 .global-footer-by-Marie-Pierre-Lessard button:active,
 .modal-by-Marie-Pierre-Lessard button:active {
-    /* MAYBE TO DO: can Daltonians still see --clr-CTA-yellow on that background? 
-    For Daltonians, it might look like the icons are becoming invisible for a split second. */
+    /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
     background-color: var(--clr-accent-purple-medium-intensity);
 }
 /* #endregion Rollover effects */
 
 /* #region Dark mode */
 /* Dark-mode classes have to be defined at the bottom of CSS file or at least below each affected light-mode styling, or the light-mode styling won't be overwritten when toggling the dark-mode class to true. 
-MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> function. That would be an alternative to what I already wrote below. See: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark */
+MAYBE TO DO or try in some other assignment: Since 2024, it is possible to use the light-dark() CSS <color> function. That would be an alternative to what I already wrote below. See: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark */
 
 /* .dark-mode-by-Marie-Pierre-Lessard applies to body element  */
 .dark-mode-by-Marie-Pierre-Lessard {
@@ -520,7 +551,8 @@ MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> func
 /* #endregion about logo in dark mode */
 
 .dark-mode-by-Marie-Pierre-Lessard h1,
-.dark-mode-by-Marie-Pierre-Lessard h2 {
+.dark-mode-by-Marie-Pierre-Lessard h2,
+.dark-mode-by-Marie-Pierre-Lessard h3 {
     color: var(--clr-base-bright-blue);
 }
 
@@ -559,10 +591,10 @@ MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> func
 }
 
 /* #region Rollover effects in dark mode */
+/* I deleted the a parent of the logo, so I am hiding its rollover effects. I am keeping the styling in case I change my mind because this was time-consuming. 
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__rectangle2-by-Marie-Pierre-Lessard,
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path5-by-Marie-Pierre-Lessard,
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover line {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
     stroke: var(--clr-base-light-blue);
 }
 
@@ -570,14 +602,12 @@ MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> func
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path2-by-Marie-Pierre-Lessard,
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path3-by-Marie-Pierre-Lessard,
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path4-by-Marie-Pierre-Lessard {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
     fill: var(--clr-base-light-blue);
 }
 
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__rectangle2-by-Marie-Pierre-Lessard,
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path5-by-Marie-Pierre-Lessard,
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active line {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
     stroke: var(--clr-CTA-yellow);
 }
 
@@ -585,17 +615,17 @@ MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> func
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path2-by-Marie-Pierre-Lessard,
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path3-by-Marie-Pierre-Lessard,
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path4-by-Marie-Pierre-Lessard {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
     fill: var(--clr-base-light-blue);
 }
+*/
 
 .dark-mode-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard:hover {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    /* For some reason, the colour doesn't change on focus. */
     fill: var(--clr-base-light-blue);
 }
 
 .dark-mode-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard:active {
-    /* For some reason, the colour doesn't change on focus even if I tell the browser to do that. */
+    /* For some reason, the colour doesn't change on focus. */
     fill: var(--clr-CTA-yellow);
 }
 
@@ -629,17 +659,19 @@ MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> func
 
 .dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard a:active {
     text-decoration: none;
-    /* MAYBE TO DO: --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. 
-    For Daltonians, it might look like the text is becoming invisible for a split second. */
+    /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
     color: var(--clr-CTA-yellow);
 }
 
 .dark-mode-by-Marie-Pierre-Lessard main a:hover,
-.dark-mode-by-Marie-Pierre-Lessard main a:focus {
+.dark-mode-by-Marie-Pierre-Lessard main a:focus,
+.modal-by-Marie-Pierre-Lessard a:hover,
+.modal-by-Marie-Pierre-Lessard a:focus  {
     color: var(--clr-base-bright-blue);
 }
 
-.dark-mode-by-Marie-Pierre-Lessard main a:active {
+.dark-mode-by-Marie-Pierre-Lessard main a:active,
+.modal-by-Marie-Pierre-Lessard a:active {
     color: var(--clr-CTA-yellow);    
 }
 
@@ -652,13 +684,15 @@ MAYBE TO DO: Since 2024, it is possible to use the light-dark() CSS <color> func
 }
 
 .dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:hover svg,
-.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:focus svg {
+.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:focus svg,
+.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:hover svg,
+.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:focus svg {
     fill: var(--clr-accent-dark-purple);
 }
 
 .dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:active,
 .dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard button:active {
-    /* TO DO: can Daltonians see the same flicker (compared to yellow)? */
+    /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
     background-color: var(--clr-accent-purple-low-intensity);
 }
 /* #endregion about rollover effects in dark mode */
