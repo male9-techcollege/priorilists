@@ -46,7 +46,7 @@
         <div id="urgent-important-matrix-by-Marie-Pierre-Lessard" class="urgent-important-matrix-by-Marie-Pierre-Lessard">
             <section id="priority1" class="priority-by-Marie-Pierre-Lessard priority--1-by-Marie-Pierre-Lessard">
                 <h2>Important and urgent</h2>
-                <ul>
+                <ul id="priority1ul">
                     <!-- <li>placeholder</li>
                     <li>placeholder</li>
                     <li>placeholder</li>
@@ -63,21 +63,21 @@
             </section>
             <section id="priority2" class="priority-by-Marie-Pierre-Lessard priority--2-by-Marie-Pierre-Lessard">
                 <h2>Important, but not urgent</h2>
-                <!-- <ul>
-                    <li>placeholder</li>
-                    <li>placeholder</li>
-                </ul> -->
+                <ul id="priority2ul">
+                    <!-- <li>placeholder</li>
+                    <li>placeholder</li> -->
+                </ul>
             </section>
             <section id="priority3" class="priority-by-Marie-Pierre-Lessard priority--3-by-Marie-Pierre-Lessard">
                 <h2>Not important, but urgent</h2>
-                <!-- <ul>
-                    <li>placeholder</li>
-                    <li>placeholder</li>
-                </ul> -->
+                <ul id="priority3ul">
+                    <!-- <li>placeholder</li>
+                    <li>placeholder</li> -->
+                </ul>
             </section>
             <section id="priority4" class="priority-by-Marie-Pierre-Lessard priority--4-by-Marie-Pierre-Lessard">
                 <h2>Not important and not urgent</h2>
-                <ul>
+                <ul id="priority4ul">
                     <!-- <li>placeholder</li>
                     <li>placeholder</li>
                     <li>placeholder</li>
@@ -113,8 +113,7 @@
                 </ul>
             </section>
         </div>
-        <!-- TO DO dynamic message instead of static element -->
-        <div class="intro-msg-by-Marie-Pierre-Lessard">To get started, click on an icon to either add a task category <span class="align-svg-with-text-by-Marie-Pierre-Lessard"><span>(</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M560-320h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z"/></svg><span>)</span></span> or a task <span class="align-svg-with-text-by-Marie-Pierre-Lessard"><span>(</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M440-240h80v-120h120v-80H520v-120h-80v120H320v80h120v120ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg><span>)</span></span>.</div>
+        <div id="introMsgByMariePierreLessard"></div>
         <!-- TO DO: check the license of each Google icon individually, just in case! -->
         <div class="copyright-by-Marie-Pierre-Lessard">
             <small>&copy; Copyright 2025. The name Priorilists, the Priorilists logo, the Priorilists app and the app's design are Marie-Pierre Lessard's intellectual property (click <a href="./LICENSE" target="_blank" rel="noopener noreferrer">here</a> to read the license). As for the levels of priority, they are taken from the urgent-important matrix by <a href="https://books.google.dk/books/about/First_Things_First.html?id=oAXq5memgcQC&redir_esc=y">Covey, Merrill, and Merrill (1994)</a>. The icons are <a href="https://developers.google.com/fonts/faq">Google Icons</a>.</small>
@@ -166,8 +165,8 @@
         <!-- TO DO: save page https://gomakethings.com/an-intro-to-the-dialog-element ; it explains how to create dialogs with custom styling to replace the deprecated alert(), prompt() and confirm() methods. -->  
         <form method="dialog">
             <fieldset>
-                <label for="cat-init-name-by-Marie-Pierre-Lessard">Pick a name for your category:</label>
-                <input name="cat-init-name-by-Marie-Pierre-Lessard" id="cinByMariePierreLessard" type="text" maxlength="255" required>
+                <label for="cat-orig-name-by-Marie-Pierre-Lessard">Pick a name for your category:</label>
+                <input name="cat-orig-name-by-Marie-Pierre-Lessard" id="conByMariePierreLessard" type="text" maxlength="50" required>
                 <label for="cat-level-priority-by-Marie-Pierre-Lessard">Choose a level of priority for your category:</label>
                 <select name="cat-level-priority-by-Marie-Pierre-Lessard" id="clpByMariePierreLessard" size="9" required>
                     <!-- TO DO: delete placeholder options in optgroups -->
@@ -206,7 +205,7 @@
         <form method="dialog">
             <fieldset>
                 <label for="new-cat-name-by-Marie-Pierre-Lessard">New category name:</label>
-                <input name="new-cat-name-by-Marie-Pierre-Lessard" id="ncnByMariePierreLessard" type="text" maxlength="255" required>
+                <input name="new-cat-name-by-Marie-Pierre-Lessard" id="ncnByMariePierreLessard" type="text" maxlength="50" required>
                 <p class="modal__warning-by-Marie-Pierre-Lessard"><strong>Attention:</strong> you should only delete empty categories since the tasks within a category will be deleted with it. The data cannot be restored. No additional warning will be issued after you click on Delete.</p>
             </fieldset>
             <footer>
@@ -218,8 +217,8 @@
     <dialog id="taskCreationModalByMariePierreLessard" class="modal-by-Marie-Pierre-Lessard modal--task-creation-by-Marie-Pierre-Lessard">
         <form method="dialog">
             <fieldset>
-                <label for="task-init-name-by-Marie-Pierre-Lessard">Pick a name for your task:</label>
-                <input name="task-init-name-by-Marie-Pierre-Lessard" id="tinByMariePierreLessard" type="text" maxlength="255" required>
+                <label for="task-orig-name-by-Marie-Pierre-Lessard">Pick a name for your task:</label>
+                <input name="task-orig-name-by-Marie-Pierre-Lessard" id="tonByMariePierreLessard" type="text" maxlength="50" required>
                 <label for="task-details-by-Marie-Pierre-Lessard">Enter task details (max. 4,000 characters):</label>
                 <textarea name="task-details-by-Marie-Pierre-Lessard" id="tdByMariePierreLessard" maxlength="4000"></textarea>
                 <label for="task-level-priority-by-Marie-Pierre-Lessard">Choose a category/level of priority for your task:</label>
@@ -260,7 +259,7 @@
         <form method="dialog">
             <fieldset>
                 <label for="new-task-name-by-Marie-Pierre-Lessard">New task name:</label>
-                <input name="new-task-name-by-Marie-Pierre-Lessard" id="ntnByMariePierreLessard" type="text" maxlength="255" required>
+                <input name="new-task-name-by-Marie-Pierre-Lessard" id="ntnByMariePierreLessard" type="text" maxlength="50" required>
                 <label for="new-task-details-by-Marie-Pierre-Lessard">New task details (max. 4,000 characters):</label>
                 <textarea name="new-task-details-by-Marie-Pierre-Lessard" id="ntdByMariePierreLessard" maxlength="4000"></textarea>
                 <p class="modal__warning-by-Marie-Pierre-Lessard"><strong>Attention:</strong> deleted tasks cannot be restored, and no additional warning will be issued after you click on Delete.</p>

@@ -4,6 +4,7 @@ hf-websider/template-strings-mc-with-kasper and github/template-strings-codelab
 github/callback-opgave (it mixes user preferences and to-do lists in one string saved to local storage)
 USED: github/datastruktur-opgave and earlier localStorage-opgave
 USED: gf-websider/dark-mode-sandbox-... (to-do apps and dark mode with local storage)
+USED: Global Goals assignment from the grundforløb (form validation)
 */
 
 /* Methods to use:
@@ -13,17 +14,56 @@ USED: gf-websider/dark-mode-sandbox-... (to-do apps and dark mode with local sto
 
 /* Script with MVC architecture (required for this assignment) 
 Table of contents: 
-View (because variables are mostly view code, and they should be at the top of the script)
-Model
-Controller */
+Variables (M, V, C)
+Model code
+View code 
+Controller code */
 
-/* #region VIEW CODE */
+/* #region VARIABLES */
 
-/* Variables for matrix quadrants */
-const topPrioritySectionByMariePierreLessard = document.getElementById("priority1");
-const planningSectionByMariePierreLessard = document.getElementById("priority2");
-const InterruptionSectionByMariePierreLessard = document.getElementById("priority3");
-const distractionSectionByMariePierreLessard = document.getElementById("priority4");
+/* Model-code variables */
+
+/* Variables for to-do-list arrays and their objects */
+
+/* Task objects either go in a categoryArrayByMariePierreLessard or in one of the 4 priority-level arrays. */
+let taskByMariePierreLessard = {
+    taskId: "",
+    priorityLevel: "",
+    categoryName: "",
+    taskName: "",
+    taskDetails: ""
+};
+
+/* categoryArray is a container for user-defined tasks, and it goes into the object categoryByMariePierreLessard  */
+let categoryArrayByMariePierreLessard = [taskByMariePierreLessard];
+
+let categoryByMariePierreLessard = {
+    categoryId: "",
+    priorityLevel: "",
+    categoryName: "",
+    categoryTasks: categoryArrayByMariePierreLessard
+};
+
+/* The 4 arrays for priority levels are containers for user-defined tasks and categories. 
+Display location: see variables for matrix quadrants. */
+let topPriorityArrayByMariePierreLessard = [categoryByMariePierreLessard, taskByMariePierreLessard];
+let planningArrayByMariePierreLessard = [categoryByMariePierreLessard, taskByMariePierreLessard];
+let InterruptionArrayByMariePierreLessard = [categoryByMariePierreLessard, taskByMariePierreLessard];
+let distractionArrayByMariePierreLessard = [categoryByMariePierreLessard, taskByMariePierreLessard];
+
+/* Do not move this array above the four variables it contains. An error would result. 
+Accessing variables (below) before they are declared (above) is not allowed. */
+let userDataArrayByMariePierreLessard = [topPriorityArrayByMariePierreLessard, planningArrayByMariePierreLessard, InterruptionArrayByMariePierreLessard, distractionArrayByMariePierreLessard];
+
+const savedUserDataByMariePierreLessard = JSON.parse(localStorage.getItem("Priorilists' to-dos"));
+
+/* View-code variables */
+
+/* Variables for matrix quadrants (ul of each section) */
+const topPriorityUlByMariePierreLessard = document.getElementById("priority1ul");
+const planningUlByMariePierreLessard = document.getElementById("priority2ul");
+const InterruptionUlByMariePierreLessard = document.getElementById("priority3ul");
+const distractionUlByMariePierreLessard = document.getElementById("priority4ul");
 
 /* Variables for modals */
 const helpModalByMariePierreLessard = document.getElementById("helpModalByMariePierreLessard");
@@ -31,6 +71,157 @@ const categoryCreationModalByMariePierreLessard = document.getElementById("catCr
 const categoryEditingAndDeletionModalByMariePierreLessard = document.getElementById("catEditingModalByMariePierreLessard");
 const taskCreationModalByMariePierreLessard = document.getElementById("taskCreationModalByMariePierreLessard");
 const taskEditingAndDeletionModalByMariePierreLessard = document.getElementById("taskEditingModalByMariePierreLessard");
+
+/* Variables for dynamic message with instructions to new users */
+const introMsgByMariePierreLessard = `To get started, click on an icon to either add a task category <span class="align-svg-with-text-by-Marie-Pierre-Lessard"><span>(</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M560-320h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z"/></svg><span>)</span></span> or a task <span class="align-svg-with-text-by-Marie-Pierre-Lessard"><span>(</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M440-240h80v-120h120v-80H520v-120h-80v120H320v80h120v120ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg><span>)</span></span>.`;
+const introMsgContainerByMariePierreLessard = document.getElementById("introMsgByMariePierreLessard");
+
+/* Controller-code variables */
+
+let errors = [];
+
+/* #endregion about variables */
+
+/* #region MODEL CODE */
+
+/* Research notes about the POOR SECURITY of local storage (most complex sites must at least have sth like Google Analytics on them!): 
+A funny but enlightening quote:
+"What's the most dangerous thing in the entire world? That's right! JavaScript.
+Think about it like this: when you store sensitive information in local storage, you're essentially using the most dangerous thing in the world to store your most sensitive information in the worst vault ever created: not the best idea.
+What the problem really boils down to is cross-site scripting attacks (XSS). (...)
+If an attacker can run JavaScript on your website, they can retrieve all the data you've stored in local storage and send it off to their own domain. (...)
+If your website is truly secure and no attacker can run JavaScript code on your website then you are technically safe, but in reality that is incredibly hard to achieve. Let me explain.
+If your website contains any third party JavaScript code included from a source outside your domain:
+- Links to bootstrap
+- Links to jQuery
+- Links to Vue, React, Angular, etc.
+- Links to any ad network code
+- Links to Google Analytics
+- Links to any tracking code
+Then you are currently at risk for having an attacker run JavaScript on your website. (...)
+At most companies, the marketing team directly manages the public website using different WYSIWYG editors and tooling. Can you really be sure that nowhere on your site are you using third-party JavaScript? I'd argue “no”. (...)
+I feel the need to specifically call out JSON Web Tokens (JWTs).
+The biggest security offenders I see today are those of us who store JWTs (session data) in local storage. Many people don't realize that JWTs are essentially the same thing as a username/password.
+If an attacker can get a copy of your JWT, they can make requests to the website on your behalf and you will never know. (...)
+There are thousands of tutorials, YouTube videos, and even programming classes at universities and coding boot camps incorrectly teaching new developers to store JWTs in local storage as an authentication mechanism. THIS INFORMATION IS WRONG. If you see someone telling you to do this, run away!"
+https://dev.to/rdegges/please-stop-using-local-storage-1i04
+The above source goes on to talk about other types of storage, some of which were not mentioned in class:
+- cookies
+- the IndexedDB API 
+- the cache API
+*/
+
+/* MAYBE TO DO: merge this with user-defined categories and tasks like in callback-opgave (but the current code seems to work fine)
+*/
+function saveUserPreferencesByMariePierreLessard() {
+    if (document.body.classList.contains("dark-mode-by-Marie-Pierre-Lessard")) {
+        localStorage.setItem("Priorilists' colours", "dark");
+    } else {
+        localStorage.removeItem("Priorilists' colours", "dark");
+    };
+};
+
+function createEmptyDataSetByMariePierreLessard() {
+    localStorage.setItem("Priorilists' to-dos", JSON.stringify(userDataArrayByMariePierreLessard));
+    // Checked with: 
+    console.log(userDataArrayByMariePierreLessard);
+    displayGetStartedByMariePierreLessard(userDataArrayByMariePierreLessard);
+};
+
+function fetchLocalStorageByMariePierreLessard() {
+    validateLocalStorageByMariePierreLessard(savedUserDataByMariePierreLessard);
+};
+
+/* This is for category and task names. */
+function validateOutgoingNameByMariePierreLessard(input) {
+        const validOutgoingName = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )]{1,50}$/;
+        return validOutgoingName.test(input);
+};
+
+/* This is for category and task details (line breaks and tabulations are allowed in this one, on top of more characters). */
+function validateOutgoingNotesByMariePierreLessard(input) {
+        const validOutgoingNotes = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )\n\t]{1,4000}$/;
+        return validOutgoingNotes.test(input);
+};
+
+function createCategoryByMariePierreLessard() {
+    const catOriginalNameByMariePierreLessard = document.getElementById("conByMariePierreLessard");
+    const catPriorityLevelByMariePierreLessard = document.getElementById("clpByMariePierreLessard");
+
+    validateOutgoingNameByMariePierreLessard(catOriginalNameByMariePierreLessard.value.trim());
+
+    if (!validateOutgoingNameByMariePierreLessard) {
+        errors.push('The category name is required, and it must be between 1 og 50 characters. Only certain special characters are allowed.\n');
+    } else {
+        const categoryToSaveByMariePierreLessard = {
+            categoryId: "", //TO DO
+            priorityLevel: "",
+            categoryName: "",
+            categoryTasks: [] // TO DO should I create an empty task array and display 1 task under category after creation of category?
+        };
+
+        /* TO DO: save name and priority level, probably with push(), 
+        in the right location of the right array depending on select-menu selection:
+topPriorityArrayByMariePierreLessard 
+planningArrayByMariePierreLessard 
+InterruptionArrayByMariePierreLessard 
+distractionArrayByMariePierreLessard 
+         */
+        /* TO DO: 
+        save future position of category in matrix:
+        the sections in the DOM are identified by 4 variables (constants) called topPrioritySectionByMariePierreLessard, planningSectionByMariePierreLessard, InterruptionSectionByMariePierreLessard, and distractionSectionByMariePierreLessard.
+        The following values are given to the options in the DOM:
+        "I+U"
+        "I-U"
+        "NI+U"
+        "NI-U"
+        */
+    };
+    
+};
+
+/* TO DO: the following regex (without the \n\t when there is no text area) is to be called in functions 
+createCategoryByMariePierreLessard() (in progress)
+editCategoryByMariePierreLessard()
+createTaskByMariePierreLessard()
+editTaskByMariePierreLessard()
+
+        Regular expression with forbidden characters or with only characters allowed.
+            DRAFT: const validToDoData = new RegExp(/[   ]/);
+        Browsers must be fault-tolerant with some regular expressions because I should have put one escape-sequence prefix (the backslash) before character - inside of the bracket list for my textarea regex from the grundforløb. Only 4 characters need to be preceded by a backslash inside of a bracket list. More require the backslash outside of bracket list.
+        https://www3.ntu.edu.sg/home/ehchua/programming/howto/Regexe.html
+        */
+        /* Global Goals/Kryb/La Cuisine/Spicy's textarea validation, edited 
+        (note that French diacritics are not allowed by this regex):
+
+        THIS NEEDS TO BE REUSED
+1) Already defined in global scope:           let errors = [];
+
+    function validateOutgoingUserData(input) {
+        const validOutgoingUserData = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@()\n\t]{1,4000}$/;
+        return validOutgoingUserData.test(input);
+    };
+
+2)  TO DO: edit source of data
+    if (!validateOutgoingUserData(form.message.value)) {
+        errors.push('Din besked må kun indeholde visse specieltegn for at være gyldig (f.eks. "()-:;.,!?%@). Beskeden må desuden ikke være længere end 4000 karakterer.\n');
+    };
+    
+3)    
+    if (errors.length > 0) {
+        console.log('Number of errors: ', errors.length);
+        let msg = 'The following errors were found: \n\n';
+        for (let i = 0; i < errors.length; i++) {
+            msg += errors[i];
+        };
+        alert(msg);
+        return false;
+    };
+*/
+
+/* #endregion about model code */
+
+/* #region VIEW CODE */
 
 /* This dark-to-light-mode switch did not work in my first attempts. 
 Applying this function to the HTML element (root element) does NOT work. I don't know why. */
@@ -83,57 +274,145 @@ function closeTaskEditingAndDeletionModalByMariePierreLessard() {
     taskEditingAndDeletionModalByMariePierreLessard.close();
 };
 
-/* #endregion about view code */
-
-/* #region MODEL CODE */
-
-/* Research notes about the POOR SECURITY of local storage (most complex sites must at least have sth like Google Analytics on them!): 
-A funny but enlightening quote:
-"What's the most dangerous thing in the entire world? That's right! JavaScript.
-Think about it like this: when you store sensitive information in local storage, you're essentially using the most dangerous thing in the world to store your most sensitive information in the worst vault ever created: not the best idea.
-What the problem really boils down to is cross-site scripting attacks (XSS). (...)
-If an attacker can run JavaScript on your website, they can retrieve all the data you've stored in local storage and send it off to their own domain. (...)
-If your website is truly secure and no attacker can run JavaScript code on your website then you are technically safe, but in reality that is incredibly hard to achieve. Let me explain.
-If your website contains any third party JavaScript code included from a source outside your domain:
-- Links to bootstrap
-- Links to jQuery
-- Links to Vue, React, Angular, etc.
-- Links to any ad network code
-- Links to Google Analytics
-- Links to any tracking code
-Then you are currently at risk for having an attacker run JavaScript on your website. (...)
-At most companies, the marketing team directly manages the public website using different WYSIWYG editors and tooling. Can you really be sure that nowhere on your site are you using third-party JavaScript? I'd argue “no”. (...)
-I feel the need to specifically call out JSON Web Tokens (JWTs).
-The biggest security offenders I see today are those of us who store JWTs (session data) in local storage. Many people don't realize that JWTs are essentially the same thing as a username/password.
-If an attacker can get a copy of your JWT, they can make requests to the website on your behalf and you will never know. (...)
-There are thousands of tutorials, YouTube videos, and even programming classes at universities and coding boot camps incorrectly teaching new developers to store JWTs in local storage as an authentication mechanism. THIS INFORMATION IS WRONG. If you see someone telling you to do this, run away!"
-https://dev.to/rdegges/please-stop-using-local-storage-1i04
-The above source goes on to talk about other types of storage, some of which were not mentioned in class:
-- cookies
-- the IndexedDB API 
-- the cache API
-*/
-
-/* PROBABLY TO DO: To merge this with user-defined categories and tasks, see callback-opgave
-Also: probably change function names to match GitHub plan after the merge. 
-I just wanted to make this work now to close the GitHub issue. */
-function saveUserPreferencesByMariePierreLessard() {
-    if (document.body.classList.contains("dark-mode-by-Marie-Pierre-Lessard")) {
-        localStorage.setItem("Priorilists' colours", "dark");
-    } else {
-        localStorage.removeItem("Priorilists' colours", "dark");
-    };
+/* V */
+/* The function displayGetStartedByMariePierreLessard() {};
+follows createEmptyDataSetByMariePierreLessard() */
+function displayGetStartedByMariePierreLessard() {
+    /* If the class is in the DOM, the div is always visible because of the padding. */
+    introMsgContainerByMariePierreLessard.classList.add("intro-msg-by-Marie-Pierre-Lessard");
+    introMsgContainerByMariePierreLessard.innerHTML = introMsgByMariePierreLessard;
+    displayDataSetByMariePierreLessard();
 };
 
-/* #endregion about model code */
+/* V */
+/* TO DO: 
+function displayDataSetByMariePierreLessard();
+follows validateLocalStorageByMariePierreLessard() and
+displayGetStartedByMariePierreLessard() 
+
+It is best to tolerante the error 
+ReferenceError: displayDataSetByMariePierreLessard is not defined 
+instead of trying to put sth temporary in the function 
+because the validation function issues an error message as soon as I create an incomplete 
+displayDataSetByMariePierreLessard() */
+    /* maybe use switch instead 
+    This was based on the model in Kasper's huskeseddel masterclass.
+    However, the recipe in callback-opgave is better. 
+displayDataSetByMariePierreLessardTest();
+console.log(displayDataSetByMariePierreLessardTest);
+function displayDataSetByMariePierreLessardTest() {
+    if (savedUserDataByMariePierreLessard.topPriorityArrayByMariePierreLessard. ??) {
+        createInput(objData);
+    };
+};
+*/
+
+/* #endregion about view code */
 
 /* #region CONTROLLER CODE */
 
-window.onload = applyUserPreferencesByMariePierreLessard(); 
+/* C */
+window.onload = appLoadingByMariePierreLessard(); 
+
+/* C */
+function appLoadingByMariePierreLessard() {
+    /* This applies the colour theme previously chosen by user (M->C->V). */
+    applyUserPreferencesByMariePierreLessard(); 
+    /* This starts the loading flow (M->C->V). */
+    fetchLocalStorageByMariePierreLessard();
+};
+
+/* C */
 function applyUserPreferencesByMariePierreLessard() {
-    let colourSchemeByMariePierreLessard = localStorage.getItem("Priorilists mode");
+    let colourSchemeByMariePierreLessard = localStorage.getItem("Priorilists' colours");
     if (colourSchemeByMariePierreLessard) {
         document.body.classList.add("dark-mode-by-Marie-Pierre-Lessard");
+    };
+};
+
+/* C */
+function validateLocalStorageByMariePierreLessard() {
+    if (!savedUserDataByMariePierreLessard) {
+        createEmptyDataSetByMariePierreLessard();
+        // Checked: console.log("No user data in local storage");
+    } else {
+        // Checked: console.log("There is user data in local storage");
+
+        /* First step: validate the data found in local storage 
+        Q: What is the point of doing that? The validation of forms with reg. ex. happens on submit...
+        A1: "occasionally, we encounter situations where users dive into developer tools, make manual changes to local storage, and then claim the app is "broken." (...)
+         - Corrupted data: Changing or removing keys can break dependencies within the app.
+         - Invalid states: The app might expect specific values or formats. Manual edits can cause the app to encounter unexpected inputs.
+         - Security risks: In some cases, overwriting local storage with malicious values could expose vulnerabilities (if the app doesn’t sanitize inputs). (...)
+        While user tampering isn’t your fault, there are steps you can take to minimize the impact of such actions:
+-->      1. Validate Local Storage Data: Always validate and sanitize data retrieved from local storage before using it in your app. For instance, check if required keys exist and if values are in the correct format. (...)
+-->      - Detect Tampering (If Feasible): While it’s not foolproof, you could implement basic checks to detect tampering. For example, store a hash of critical values and verify it during app initialization."
+        https://corner.buka.sh/dont-blame-the-app-understanding-local-storage-tampering/
+        A2: "Local Storage Vulnerabilities:
+         1. Cross-Site Scripting (XSS): If user input stored in local storage is retrieved and displayed on web pages without proper sanitization, it can lead to XSS vulnerabilities. Attackers can inject malicious scripts into the local storage, which when retrieved and executed on other users’ browsers, can lead to session hijacking, data theft, or other malicious actions.
+         2. Insecure Direct Object References (IDOR): Storing sensitive data in local storage without proper access controls can lead to IDOR vulnerabilities. Attackers may manipulate the data stored in local storage to access unauthorized resources or escalate privileges.
+         3. Data Leakage: Storing sensitive information such as authentication tokens or user credentials in local storage without encryption or proper security measures can lead to data leakage vulnerabilities. Attackers with access to the local storage may extract this information and misuse it for unauthorized access or identity theft.
+         4. Lack of Secure Communication: Local storage is susceptible to man-in-the-middle (MITM) attacks if data stored in it is transmitted over insecure channels. Attackers can intercept communication between the client and server, tamper with the data stored in local storage, or inject malicious content, compromising the integrity and confidentiality of the data. (...)
+         Prevent injection attacks by thoroughly validating and sanitizing input data before storing it in JSON format. Input validation helps mitigate risks associated with SQL injection, cross-site scripting (XSS), and other injection-based attacks, ensuring the integrity of the stored data."
+        https://fdzdev.medium.com/storing-accessing-and-displaying-json-data-in-local-storage-pe-d4ef8e509e31 
+        */
+        /*
+        Rejected option: use the PHP htmlentities() to escape HTML characters. This apparently will only work if the backend uses PHP. 
+        Sources: 
+        https://fdzdev.medium.com/storing-accessing-and-displaying-json-data-in-local-storage-pe-d4ef8e509e31
+        https://www.w3schools.com/php/func_string_htmlentities.asp
+        https://www.w3schools.com/php/func_string_html_entity_decode.asp (Probably not intended to be used in the current situation any injected code would be run.)
+        "The htmlentities( ) and htmlspecialchars( ) in PHP both convert special characters to their HTML entities, but 'htmlspecialchars()' only converts characters that have special meaning in HTML, while 'htmlentities( )' converts a broader range of characters."
+        https://www.geeksforgeeks.org/php/htmlentities-vs-htmlspecialchars-function-in-php/
+        */
+        /* TO DO: the following forbids any character that is not in the bracket list, such as <> in <script>. However, it does not make sure that the various types of brackets are in the right sequence, i.e. it does not verify that the structure of the string is correct. 
+        It is just a start because I am not sure that I can get everything done by the deadline. */
+        /* Edited version of textarea validation from Global Goals/Kryb/La Cuisine/Spicy assignments.  
+        (Note that French diacritics are not allowed by this regex.) */
+
+        function validateIncomingUserData(data) {
+           /* This bracket list has to include characters (brackets) that aren't in the constant validOutgoingUserData. Its length is limited by the capacity of the typical local storage when the encoding UTF-8 is used. */ 
+           /* The space between the parentheses is not a mistake: it is a space! I also could have used \s, which encompasses several types of whitespace, but I wanted stronger constraints. */
+           const validIncomingUserData = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )[\]{}\n\t]{1,2500000}$/;
+           return validIncomingUserData.test(data);
+        };
+        
+        // This sends valid data to displayDataSetByMariePierreLessard()  
+        if (validateIncomingUserData(savedUserDataByMariePierreLessard)) {
+            displayDataSetByMariePierreLessard();
+        } else {
+            /* This saves a valid (empty) data set to local storage if the incoming user data does not pass the validation test, i.e. it replaces the invalid data by valid data (an empty data set). 
+            I didn't use createEmptyDataSetByMariePierreLessard(); because it makes the get-started div reappear after 1st use!
+            */
+            errors.push('Corrupt user data in local storage. Tampering may have occurred. The corrupt data was deleted.\n');
+            // This overwrites the corrupt data.
+            localStorage.setItem("Priorilists' to-dos", JSON.stringify(userDataArrayByMariePierreLessard));
+            // Checked with: console.log(userDataArrayByMariePierreLessard);
+            displayDataSetByMariePierreLessard();
+
+            /* Notes on flaw in my flowchart for the loading flow.
+            I corrected the code description, but not the flowchart. 
+            TO DO: edit flowchart if time allows.
+            Replacing the following line byt the setItem() method stopped the get-started div from reappearing every time the page was refreshed.
+            createEmptyDataSetByMariePierreLessard();
+            However, I got the custom error message on later visits even though my regex was fine (I had tested it earlier).
+            The error disappeared once I added displayDataSetByMariePierreLessard(); instead of createEmptyDataSetByMariePierreLessard(); 
+            I also tried with fetchLocalStorageByMariePierreLessard(); but then I got an infinite loop ("RangeError: Maximum call stack size exceeded").
+            It must have been caused by the lack of a function to send the data to the next function
+            (JavaScript being a single-threaded language).
+            */
+          };
+
+        if (errors.length > 0) {
+            console.log('Number of errors: ', errors.length);
+            let msg = 'The following errors were found: \n\n';
+            for (let i = 0; i < errors.length; i++) {
+                msg += errors[i];
+            };
+            alert(msg);
+            return false;
+        };
+        /* Checked with valid data and invalid data. */
     };
 };
 

@@ -1,5 +1,23 @@
 /* Alt+35 : # 
-Unicode version: Alt+x0035 : # */
+Unicode version: Alt+x0035 : # 
+
+Unicode for underscore?
+
+Special characters: 
+Can.-French keyboard (QWERTY, Win10 version--I am not sure if it's heritage or multilingual; not the one I learned in high school), 
+    - numbers' row: #-=
+    - shift+numbers: |!"/$%?&*()_+
+    - alt+ctrl+numbers: \±@£¢¤¬¦²³¼½¾
+    - q row, key followed by spacebar (accent circonflexe, cédille): ^¸ 
+    - q row, shift+key followed by spacebar: ^¨
+    - q row, alt+ctrl+key: §¶[]
+    - a row, key (accent appears after spacebar is pressed): ;`< 
+    - a row, shift+key (accent appears after spacebar is pressed; duplicate): :`>
+    - a row, alt+ctrl+key: ~{}
+    - z row, key: «,.é
+    - z row, shift+key: »'.É
+    - z row, alt+ctrl+key (accent appears after spacebar is pressed): °µ¯­ ´
+*/
 /* MAYBE TO DO: 
 Any missing ACCESSIBLE rollover effects in modals and dynamic sections? (two sets: one for light mode and one for dark mode)
 More responsiveness 
@@ -698,3 +716,6 @@ MAYBE TO DO or try in some other assignment: Since 2024, it is possible to use t
 /* #endregion about rollover effects in dark mode */
 /* #endregion about dark mode */
 
+.hidden {
+    display: none;
+}
