@@ -9,7 +9,9 @@ USED: Global Goals assignment from the grundforløb (form validation)
 
 /* Methods to use:
 - setItem(), getItem(), removeItem(), but not clear() unless I want to add that kind of functionality to the app 
-- probably also: key() ("This method is particularly useful when you need to enumerate all stored items without knowing their keys in advance." https://strapi.io/blog/how-to-use-localstorage-in-javascript) 
+- probably also the following, but I think that this is for key-value pairs stored in local storage, not for the contents of an array that is a value of such a pair: key() (
+Source 1: "This method is particularly useful when you need to enumerate all stored items without knowing their keys in advance." https://strapi.io/blog/how-to-use-localstorage-in-javascript 
+Source 2: "The key() method of the Storage interface, when passed a number n, returns the name of the nth key in a given Storage object." https://developer.mozilla.org/en-US/docs/Web/API/Storage/key 
 */
 
 /* Script with MVC architecture (required for this assignment) 
@@ -78,7 +80,7 @@ const introMsgContainerByMariePierreLessard = document.getElementById("introMsgB
 
 /* Controller-code variables */
 
-let errors = [];
+let errorsByMariePierreLessard = [];
 
 /* #endregion about variables */
 
@@ -132,33 +134,72 @@ function fetchLocalStorageByMariePierreLessard() {
     validateLocalStorageByMariePierreLessard(savedUserDataByMariePierreLessard);
 };
 
-/* This is for category and task names. */
-function validateOutgoingNameByMariePierreLessard(input) {
-        const validOutgoingName = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )]{1,50}$/;
-        return validOutgoingName.test(input);
+/* This is for task names. */
+function validateTaskNameByMariePierreLessard(input) {
+        const validTaskNameByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )]{1,255}$/;
+        return validTaskNameByMariePierreLessard.test(input);
 };
 
-/* This is for category and task details (line breaks and tabulations are allowed in this one, on top of more characters). */
-function validateOutgoingNotesByMariePierreLessard(input) {
-        const validOutgoingNotes = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )\n\t]{1,4000}$/;
-        return validOutgoingNotes.test(input);
+/* This is for task details (line breaks and tabulations are allowed in this one, on top of more characters). */
+function validateTaskDetailsByMariePierreLessard(input) {
+        const validTaskDetailsByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )\n\t]{1,4000}$/;
+        return validTaskDetailsByMariePierreLessard.test(input);
 };
 
-function createCategoryByMariePierreLessard() {
-    const catOriginalNameByMariePierreLessard = document.getElementById("conByMariePierreLessard");
-    const catPriorityLevelByMariePierreLessard = document.getElementById("clpByMariePierreLessard");
+/* This is for category names. */
+function validateCategoryNameByMariePierreLessard(input) {
+        const validCategoryNameByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )]{1,50}$/;
+        return validCategoryNameByMariePierreLessard.test(input);
+};
 
-    validateOutgoingNameByMariePierreLessard(catOriginalNameByMariePierreLessard.value.trim());
+function createTaskByMariePierreLessard() {
+    const taskOriginalNameByMariePierreLessard = document.getElementById("tonByMariePierreLessard");
+    const taskOriginalDetailsByMariePierreLessard = document.getElementById("todByMariePierreLessard");
+    const taskPriorityLevelByMariePierreLessard = document.getElementById("tlpByMariePierreLessard");
 
-    if (!validateOutgoingNameByMariePierreLessard) {
-        errors.push('The category name is required, and it must be between 1 og 50 characters. Only certain special characters are allowed.\n');
+    validateTaskNameByMariePierreLessard(taskOriginalNameByMariePierreLessard.value.trim());
+    validateTaskDetailsByMariePierreLessard(taskOriginalDetailsByMariePierreLessard.value);
+
+    if (!validateTaskNameByMariePierreLessard) {
+        errorsByMariePierreLessard.push('The task name is required, and it must be between 1 og 255 characters. Only certain special characters are allowed.\n');
     } else {
-        const categoryToSaveByMariePierreLessard = {
-            categoryId: "", //TO DO
+        const taskToSaveByMariePierreLessard = {
+            taskId: "",
+            /* TO DO: options for an ID:
+             - crypto.randomUUID() (sources: huskeseddel-mc-med-kasper + https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID)
+             - counter like the following (by Wayne at https://stackoverflow.com/questions/5690723/how-should-i-generate-unique-ids-for-a-bunch-of-objects): 
+            function generateId(prefix, start) {
+                var i = start || 0;
+                return function() {
+                    return prefix + i++;
+                }
+            }
+            // start the counter at 12
+            var id = generateId("symbol_", 12);
+            id();
+            or the following (by ChaosPandion at https://stackoverflow.com/questions/5690723/how-should-i-generate-unique-ids-for-a-bunch-of-objects)
+            function IdGenerator(baseName) {
+                this.baseName = "" + baseName;
+                this.number = 0;
+            }
+
+            IdGenerator.prototype.next = function () {
+                return "" + this.baseName + this.number++;
+            };
+
+            var gen = new IdGenerator("symbol_")
+            for (var i = 0; i < 100; i++) {
+                console.log(gen.next());
+            }
+             - Symbol() (sources/comments: but the methods taught to us probably won't work considering the following: "Ensure Privacy: Symbol keys are not accessible through standard object iteration methods like for…in, making them ideal for creating private or internal properties that should not be exposed." https://medium.com/@sujithakumars/javascript-symbols-the-key-to-unique-identifiers-1c5563965da7 + "Enumerable properties are those properties whose internal enumerable flag is set to true, which is the default for properties created via simple assignment or via a property initializer. Properties defined via Object.defineProperty and such are not enumerable by default. Most iteration means (such as for...in loops and Object.keys) only visit enumerable keys." https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Enumerability_and_ownership_of_properties)
+             */ 
             priorityLevel: "",
             categoryName: "",
-            categoryTasks: [] // TO DO should I create an empty task array and display 1 task under category after creation of category?
+            taskName: "",
+            taskDetails: ""
         };
+
+        // taskPriorityLevelByMariePierreLessard.value = taskToSaveByMariePierreLessard.priorityLevel
 
         /* TO DO: save name and priority level, probably with push(), 
         in the right location of the right array depending on select-menu selection:
@@ -176,10 +217,6 @@ distractionArrayByMariePierreLessard
         "NI+U"
         "NI-U"
         */
-    };
-    
-};
-
 /* TO DO: the following regex (without the \n\t when there is no text area) is to be called in functions 
 createCategoryByMariePierreLessard() (in progress)
 editCategoryByMariePierreLessard()
@@ -187,37 +224,79 @@ createTaskByMariePierreLessard()
 editTaskByMariePierreLessard()
 
         Regular expression with forbidden characters or with only characters allowed.
-            DRAFT: const validToDoData = new RegExp(/[   ]/);
         Browsers must be fault-tolerant with some regular expressions because I should have put one escape-sequence prefix (the backslash) before character - inside of the bracket list for my textarea regex from the grundforløb. Only 4 characters need to be preceded by a backslash inside of a bracket list. More require the backslash outside of bracket list.
-        https://www3.ntu.edu.sg/home/ehchua/programming/howto/Regexe.html
+        See: https://www3.ntu.edu.sg/home/ehchua/programming/howto/Regexe.html
         */
         /* Global Goals/Kryb/La Cuisine/Spicy's textarea validation, edited 
         (note that French diacritics are not allowed by this regex):
 
         THIS NEEDS TO BE REUSED
-1) Already defined in global scope:           let errors = [];
+1) Already defined in global scope:           let errorsByMariePierreLessard = [];
 
-    function validateOutgoingUserData(input) {
-        const validOutgoingUserData = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@()\n\t]{1,4000}$/;
-        return validOutgoingUserData.test(input);
+3 regular expressions like this one already defined in global scope (the following was a draft):
+    function validateOutgoingUserDataByMariePierreLessard(input) {
+        const validOutgoingUserDataByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@()\n\t]{1,4000}$/;
+        return validOutgoingUserDataByMariePierreLessard.test(input);
     };
 
-2)  TO DO: edit source of data
+2)  PARTIALLY DONE/TO DO: edit source of data
     if (!validateOutgoingUserData(form.message.value)) {
-        errors.push('Din besked må kun indeholde visse specieltegn for at være gyldig (f.eks. "()-:;.,!?%@). Beskeden må desuden ikke være længere end 4000 karakterer.\n');
+        errorsByMariePierreLessard.push('Din besked må kun indeholde visse specieltegn for at være gyldig (f.eks. "()-:;.,!?%@). Beskeden må desuden ikke være længere end 4000 karakterer.\n');
     };
     
-3)    
-    if (errors.length > 0) {
-        console.log('Number of errors: ', errors.length);
-        let msg = 'The following errors were found: \n\n';
-        for (let i = 0; i < errors.length; i++) {
-            msg += errors[i];
+3)  NOT DONE:
+    if (errorsByMariePierreLessard.length > 0) {
+        console.log('Number of errors: ', errorsByMariePierreLessard.length);
+        let msgByMariePierreLessard = 'The following errors were found: \n\n';
+        for (let i = 0; i < errorsByMariePierreLessard.length; i++) {
+            msg += errorsByMariePierreLessard[i];
         };
-        alert(msg);
+        alert(msgByMariePierreLessard);
         return false;
     };
 */
+
+    };
+};
+
+function editTaskByMariePierreLessard() {
+    const newTaskNameByMariePierreLessard = document.getElementById("ntnByMariePierreLessard");
+    const newTaskDetailsByMariePierreLessard = document.getElementById("ntdByMariePierreLessard");
+
+    validateTaskNameByMariePierreLessard(newTaskNameByMariePierreLessard.value.trim());
+    validateTaskDetailsByMariePierreLessard(newTaskDetailsByMariePierreLessard.value);
+
+    /* TO DO: reuse code from createTaskByMariePierreLessard() */
+};
+
+function createCategoryByMariePierreLessard() {
+    const catOriginalNameByMariePierreLessard = document.getElementById("conByMariePierreLessard");
+    const catPriorityLevelByMariePierreLessard = document.getElementById("clpByMariePierreLessard");
+
+    validateCategoryNameByMariePierreLessard(catOriginalNameByMariePierreLessard.value.trim());
+
+    if (!validateCategoryNameByMariePierreLessard) {
+        errorsByMariePierreLessard.push('The category name is required, and it must be between 1 og 50 characters. Only certain special characters are allowed.\n');
+    } else {
+/* TO DO */
+        const categoryToSaveByMariePierreLessard = {
+            categoryId: "",
+            priorityLevel: "",
+            categoryName: "",
+            categoryTasks: [] // TO DO should I create an empty task array and display 1 task under category after creation of category?
+        };
+
+        // catPriorityLevelByMariePierreLessard.value = categoryToSaveByMariePierreLessard.priorityLevel ??
+    };
+};
+
+function editCategoryByMariePierreLessard() {
+    const newCategoryNameByMariePierreLessard = document.getElementById("ncnByMariePierreLessard");
+
+    validateCategoryNameByMariePierreLessard(newCategoryNameByMariePierreLessard.value.trim());
+
+/* TO DO: reuse code from createCategoryByMariePierreLessard() */
+};
 
 /* #endregion about model code */
 
@@ -370,21 +449,21 @@ function validateLocalStorageByMariePierreLessard() {
         /* Edited version of textarea validation from Global Goals/Kryb/La Cuisine/Spicy assignments.  
         (Note that French diacritics are not allowed by this regex.) */
 
-        function validateIncomingUserData(data) {
-           /* This bracket list has to include characters (brackets) that aren't in the constant validOutgoingUserData. Its length is limited by the capacity of the typical local storage when the encoding UTF-8 is used. */ 
+        function validateIncomingUserDataByMariePierreLessard(data) {
+           /* This bracket list has to include characters (brackets) that aren't in the constants for individual fields. Its length is limited by the capacity of the typical local storage when the encoding UTF-8 is used. */ 
            /* The space between the parentheses is not a mistake: it is a space! I also could have used \s, which encompasses several types of whitespace, but I wanted stronger constraints. */
-           const validIncomingUserData = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )[\]{}\n\t]{1,2500000}$/;
-           return validIncomingUserData.test(data);
+           const validIncomingUserDataByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )[\]{}\n\t]{1,2500000}$/;
+           return validIncomingUserDataByMariePierreLessard.test(data);
         };
         
         // This sends valid data to displayDataSetByMariePierreLessard()  
-        if (validateIncomingUserData(savedUserDataByMariePierreLessard)) {
+        if (validateIncomingUserDataByMariePierreLessard(savedUserDataByMariePierreLessard)) {
             displayDataSetByMariePierreLessard();
         } else {
             /* This saves a valid (empty) data set to local storage if the incoming user data does not pass the validation test, i.e. it replaces the invalid data by valid data (an empty data set). 
             I didn't use createEmptyDataSetByMariePierreLessard(); because it makes the get-started div reappear after 1st use!
             */
-            errors.push('Corrupt user data in local storage. Tampering may have occurred. The corrupt data was deleted.\n');
+            errorsByMariePierreLessard.push('Corrupt user data in local storage. Tampering may have occurred. The corrupt data was deleted.\n');
             // This overwrites the corrupt data.
             localStorage.setItem("Priorilists' to-dos", JSON.stringify(userDataArrayByMariePierreLessard));
             // Checked with: console.log(userDataArrayByMariePierreLessard);
@@ -403,13 +482,13 @@ function validateLocalStorageByMariePierreLessard() {
             */
           };
 
-        if (errors.length > 0) {
-            console.log('Number of errors: ', errors.length);
-            let msg = 'The following errors were found: \n\n';
-            for (let i = 0; i < errors.length; i++) {
-                msg += errors[i];
+        if (errorsByMariePierreLessard.length > 0) {
+            console.log('Number of errors: ', errorsByMariePierreLessard.length);
+            let msgByMariePierreLessard = 'The following errors were found: \n\n';
+            for (let i = 0; i < errorsByMariePierreLessard.length; i++) {
+                msg += errorsByMariePierreLessard[i];
             };
-            alert(msg);
+            alert(msgByMariePierreLessard);
             return false;
         };
         /* Checked with valid data and invalid data. */
@@ -417,4 +496,3 @@ function validateLocalStorageByMariePierreLessard() {
 };
 
 /* #endregion about controller code */
-
