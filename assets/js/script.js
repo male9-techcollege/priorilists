@@ -1,7 +1,7 @@
 /* Potential references in school work/materials: 
 hf-websider/huskeseddel-mc-med-kasper
 hf-websider/template-strings-mc-with-kasper and github/template-strings-codelab
-github/callback-opgave (it mixes user preferences and to-do lists in one string saved to local storage)
+USED: github/callback-opgave (it mixes user preferences and to-do lists in one string saved to local storage)
 USED: github/datastruktur-opgave and earlier localStorage-opgave
 USED: gf-websider/dark-mode-sandbox-... (to-do apps and dark mode with local storage)
 USED: Global Goals assignment from the grundforløb (form validation)
@@ -26,6 +26,20 @@ Controller code */
 /* Model-code variables */
 
 /* Variables for to-do-list arrays and their objects */
+
+/* TO DO: based on the data structure in callback-opgave, I probably should have created 2 arrays in each of the 4 arrays for priority levels: 
+one for individual tasks, which would each have their own index,
+and one for categories, which would each have their own index, and also would each have a key-value pair for an array that contains tasks. 
+IDEAS ON HOW TO PROCEED based on callback-opgave: 
+Display function (at initialisation):
+- When dynamically generating HTML elements for objects in local storage:
+-- <li> are parents of screen-reader-accessible inline elements (inputs for titles/name, Edit button, and probably hidden elements for the invisible text areas and select menus). Are labels required for the sake of screen-reader users? Would their absence be confusing for the blind? NO labels, I think, because they should just think that this button opens a dialog. ARIA labels are needed here!
+-- BETTER/EASIER: the Edit button has to be inside of a form that is invisible to the user. That way, the button knows what data it is supposed to send somewhere (to a dialog in this case). The input elements have to be deactivated and invisible. The button should be described to the blind as something that OPENS a dialog to enable editing. The button relays the index of the object, I think! Why would an ID be necessary?
+-- For testing purposes, put text in dummy data set and give IDs to objects in that set while working on display function, before working on Edit button event listener. 
+
+ID generation in string in local storage:
+- If I want to use push() etc., I think that I need a counter that gives numeric IDs to items, so that I can know their index, but maybe there is an easier way than that... See Kasper's master class.
+*/
 
 /* Task objects either go in a categoryArrayByMariePierreLessard or in one of the 4 priority-level arrays. */
 let taskByMariePierreLessard = {
@@ -136,20 +150,20 @@ function fetchLocalStorageByMariePierreLessard() {
 
 /* This is for task names. */
 function validateTaskNameByMariePierreLessard(input) {
-        const validTaskNameByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )]{1,255}$/;
-        return validTaskNameByMariePierreLessard.test(input);
+    const validTaskNameByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )]{1,255}$/;
+    return validTaskNameByMariePierreLessard.test(input);
 };
 
 /* This is for task details (line breaks and tabulations are allowed in this one, on top of more characters). */
 function validateTaskDetailsByMariePierreLessard(input) {
-        const validTaskDetailsByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )\n\t]{1,4000}$/;
-        return validTaskDetailsByMariePierreLessard.test(input);
+    const validTaskDetailsByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )\n\t]{1,4000}$/;
+    return validTaskDetailsByMariePierreLessard.test(input);
 };
 
 /* This is for category names. */
 function validateCategoryNameByMariePierreLessard(input) {
-        const validCategoryNameByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )]{1,50}$/;
-        return validCategoryNameByMariePierreLessard.test(input);
+    const validCategoryNameByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )]{1,50}$/;
+    return validCategoryNameByMariePierreLessard.test(input);
 };
 
 function createTaskByMariePierreLessard() {
@@ -192,7 +206,7 @@ function createTaskByMariePierreLessard() {
                 console.log(gen.next());
             }
              - Symbol() (sources/comments: but the methods taught to us probably won't work considering the following: "Ensure Privacy: Symbol keys are not accessible through standard object iteration methods like for…in, making them ideal for creating private or internal properties that should not be exposed." https://medium.com/@sujithakumars/javascript-symbols-the-key-to-unique-identifiers-1c5563965da7 + "Enumerable properties are those properties whose internal enumerable flag is set to true, which is the default for properties created via simple assignment or via a property initializer. Properties defined via Object.defineProperty and such are not enumerable by default. Most iteration means (such as for...in loops and Object.keys) only visit enumerable keys." https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Enumerability_and_ownership_of_properties)
-             */ 
+             */
             priorityLevel: "",
             categoryName: "",
             taskName: "",
@@ -217,16 +231,16 @@ distractionArrayByMariePierreLessard
         "NI+U"
         "NI-U"
         */
-/* TO DO: the following regex (without the \n\t when there is no text area) is to be called in functions 
-createCategoryByMariePierreLessard() (in progress)
-editCategoryByMariePierreLessard()
-createTaskByMariePierreLessard()
-editTaskByMariePierreLessard()
-
-        Regular expression with forbidden characters or with only characters allowed.
-        Browsers must be fault-tolerant with some regular expressions because I should have put one escape-sequence prefix (the backslash) before character - inside of the bracket list for my textarea regex from the grundforløb. Only 4 characters need to be preceded by a backslash inside of a bracket list. More require the backslash outside of bracket list.
-        See: https://www3.ntu.edu.sg/home/ehchua/programming/howto/Regexe.html
-        */
+        /* TO DO: the following regex (without the \n\t when there is no text area) is to be called in functions 
+        createCategoryByMariePierreLessard() (in progress)
+        editCategoryByMariePierreLessard()
+        createTaskByMariePierreLessard()
+        editTaskByMariePierreLessard()
+        
+                Regular expression with forbidden characters or with only characters allowed.
+                Browsers must be fault-tolerant with some regular expressions because I should have put one escape-sequence prefix (the backslash) before character - inside of the bracket list for my textarea regex from the grundforløb. Only 4 characters need to be preceded by a backslash inside of a bracket list. More require the backslash outside of bracket list.
+                See: https://www3.ntu.edu.sg/home/ehchua/programming/howto/Regexe.html
+                */
         /* Global Goals/Kryb/La Cuisine/Spicy's textarea validation, edited 
         (note that French diacritics are not allowed by this regex):
 
@@ -278,7 +292,7 @@ function createCategoryByMariePierreLessard() {
     if (!validateCategoryNameByMariePierreLessard) {
         errorsByMariePierreLessard.push('The category name is required, and it must be between 1 og 50 characters. Only certain special characters are allowed.\n');
     } else {
-/* TO DO */
+        /* TO DO */
         const categoryToSaveByMariePierreLessard = {
             categoryId: "",
             priorityLevel: "",
@@ -295,7 +309,7 @@ function editCategoryByMariePierreLessard() {
 
     validateCategoryNameByMariePierreLessard(newCategoryNameByMariePierreLessard.value.trim());
 
-/* TO DO: reuse code from createCategoryByMariePierreLessard() */
+    /* TO DO: reuse code from createCategoryByMariePierreLessard() */
 };
 
 /* #endregion about model code */
@@ -369,12 +383,18 @@ function displayDataSetByMariePierreLessard();
 follows validateLocalStorageByMariePierreLessard() and
 displayGetStartedByMariePierreLessard() 
 
-It is best to tolerante the error 
+It is best to tolerate the error 
 ReferenceError: displayDataSetByMariePierreLessard is not defined 
 instead of trying to put sth temporary in the function 
-because the validation function issues an error message as soon as I create an incomplete 
-displayDataSetByMariePierreLessard() */
-    /* maybe use switch instead 
+because the validation function issued an error message as soon as I create an incomplete 
+displayDataSetByMariePierreLessard(), at least on the first day.
+On the second day, I didn't get any error when I wrote the following to get an explanation from Kasper
+*/
+function displayDataSetByMariePierreLessard() {
+    console.log("Hello, I am a function holding the data found in local storage!");
+
+};
+/* maybe use switch instead 
     This was based on the model in Kasper's huskeseddel masterclass.
     However, the recipe in callback-opgave is better. 
 displayDataSetByMariePierreLessardTest();
@@ -391,12 +411,12 @@ function displayDataSetByMariePierreLessardTest() {
 /* #region CONTROLLER CODE */
 
 /* C */
-window.onload = appLoadingByMariePierreLessard(); 
+window.onload = appLoadingByMariePierreLessard();
 
 /* C */
 function appLoadingByMariePierreLessard() {
     /* This applies the colour theme previously chosen by user (M->C->V). */
-    applyUserPreferencesByMariePierreLessard(); 
+    applyUserPreferencesByMariePierreLessard();
     /* This starts the loading flow (M->C->V). */
     fetchLocalStorageByMariePierreLessard();
 };
@@ -450,12 +470,12 @@ function validateLocalStorageByMariePierreLessard() {
         (Note that French diacritics are not allowed by this regex.) */
 
         function validateIncomingUserDataByMariePierreLessard(data) {
-           /* This bracket list has to include characters (brackets) that aren't in the constants for individual fields. Its length is limited by the capacity of the typical local storage when the encoding UTF-8 is used. */ 
-           /* The space between the parentheses is not a mistake: it is a space! I also could have used \s, which encompasses several types of whitespace, but I wanted stronger constraints. */
-           const validIncomingUserDataByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )[\]{}\n\t]{1,2500000}$/;
-           return validIncomingUserDataByMariePierreLessard.test(data);
+            /* This bracket list has to include characters (brackets) that aren't in the constants for individual fields. Its length is limited by the capacity of the typical local storage when the encoding UTF-8 is used. */
+            /* The space between the parentheses is not a mistake: it is a space! I also could have used \s, which encompasses several types of whitespace, but I wanted stronger constraints. */
+            const validIncomingUserDataByMariePierreLessard = /^[a-zA-ZæÆøØåÅ0-9$£%\-+=/*.:;,!?"@( )[\]{}\n\t]{1,2500000}$/;
+            return validIncomingUserDataByMariePierreLessard.test(data);
         };
-        
+
         // This sends valid data to displayDataSetByMariePierreLessard()  
         if (validateIncomingUserDataByMariePierreLessard(savedUserDataByMariePierreLessard)) {
             displayDataSetByMariePierreLessard();
@@ -480,7 +500,7 @@ function validateLocalStorageByMariePierreLessard() {
             It must have been caused by the lack of a function to send the data to the next function
             (JavaScript being a single-threaded language).
             */
-          };
+        };
 
         if (errorsByMariePierreLessard.length > 0) {
             console.log('Number of errors: ', errorsByMariePierreLessard.length);
