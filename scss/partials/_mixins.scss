@@ -1,0 +1,26 @@
+@use "variables";
+
+/* #region Global styling + rollover effects */
+@mixin links-within-copy-by-Marie-Pierre-Lessard {
+    a {
+        color: variables.$clr-real-black;
+    }
+
+    a:hover,
+    a:focus {
+        color: variables.$clr-accent-dark-purple;
+    }
+
+    a:active {
+        color: variables.$clr-CTA-yellow;
+    }
+}
+
+/* TO DO: mixins with lists for light vs. dark mode 
+In these buttons, the border has a diff. colour. */
+@mixin big-app-buttons {
+    background-color: variables.$clr-accent-dark-purple;
+    color: variables.$clr-CTA-yellow;
+    padding-block: variables.$x-small-negative-space;
+    cursor: pointer;
+}

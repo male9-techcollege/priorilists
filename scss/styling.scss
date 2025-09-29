@@ -1,66 +1,18 @@
-/* TO DO: CSS selectors no longer seem to work. See select selector. */
-
 @use "./partials/variables";
+@use "./partials/mixins";
 
 /* The use of the @import rule for partials is deprecated in SASS/SCSS, 
 but not to import fonts in SCCS since that is a rule that exists in CSS.
 HOWEVER: 
-the @import has to follow @use rules because @use is more important than @import. */
+the @import has to come after @use rules because @use is more important than @import. */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-/* Alt+35 : # 
-Unicode version: Alt+x0035 : # 
-
-Underscore: it's in the French-Can. heritage keyboard, but not in the multilingual, so the heritage keyboard is better (BEM conventions, etc.)
-
-Special characters: 
-Can.-French keyboard (heritage; that is the one I learned in high school: shift+8=*; no "tréma" on this one, but underscore)
-    - numbers' row, key: °-= 
-    - numbers' row, shift+key: °!"#$%?&*()_+ 
-    - alt+ctrl+numbers: ¬¹@³¼½¾{[]}|¸ (cédille) 
-    - q row, key: ^ (accent circonflexe) ç 
-    - q row, shift+key: ^ (accent circonflexe) Ç 
-    - q row, alt+ctrl+key: €¶¥øþ° ~ (followed by spacebar) (the euro symbol is also on the DA keyboard on the same key)
-    - a row, key: ;èà   
-    - a row, shift+key: :ÈÀ 
-    - a row, alt+ctrl+key: æßðª´` (the accents appear after spacebar or letter is pressed)
-    - z row, key: ù,.é
-    - z row, shift+key: Ù'.É 
-    - z row, alt+ctrl+key: \«»¢µ<>/
-
-Can.-French keyboard (QWERTY, multilingual; not the one I learned in high school; tréma, but no underscore), 
-    - numbers' row, key: #-=
-    - numbers' row, shift+key: |!"/$%?&*()_+  
-    - alt+ctrl+numbers: \±@£¢¤¬¦²³¼½¾
-    - q row, key followed by spacebar (accent circonflexe, cédille): ^¸ 
-    - q row, shift+key followed by spacebar: ^¨ (tréma) 
-    - q row, alt+ctrl+key: §¶[]
-    - a row, key (accent appears after spacebar or letter is pressed): ;`< 
-    - a row, shift+key (accent appears after spacebar or letter is pressed; duplicate): :`>
-    - a row, alt+ctrl+key: ~{}
-    - z row, key: «,.é
-    - z row, shift+key: »'.É
-    - z row, alt+ctrl+key (accent appears after spacebar or letter is pressed): °µ¯­ ´
-
-Danish keyboard (| is NOT missing; alt+ctrl+ last key of numbers line; "tréma" is actually there!)
-    - numbers' row, key: ½+´ (accent appears after spacebar or letter is pressed)
-    - numbers' row, shift+key: §!"#¤%&/()=?` (accent appears after spacebar or letter is pressed)
-    - alt+ctrl+numbers: @£$€{[]}|
-    - q row, key: å¨ ("tréma" appears after spacebar or letter is pressed)
-    - q row, shift+key: Å^ ("accent circonflexe" appears after spacebar or letter is pressed)
-    - q row, alt+ctrl+key: €~ (tilde appears after the spacebar i pressed)
-    - a row, key: æø' 
-    - a row, shift+key: ÆØ*  
-    - a row, alt+ctrl+key:  
-    - z row, key: <,.-
-    - z row, shift+key: >;:_
-    - z row, alt+ctrl+key: \µ  
-*/
 /* MAYBE TO DO: 
 Any missing ACCESSIBLE rollover effects in modals and dynamic sections? (two sets: one for light mode and one for dark mode)
 More responsiveness 
 */
 
+/* #region Global styling */
 html {
     font-size: 12px;
     font-family: Inter, sans-serif;
@@ -75,18 +27,14 @@ html {
 body {
     background-color: variables.$clr-base-almost-white;
     color: variables.$clr-real-black;
-    /* The inline margin is space for the scroll bar, particularly on mobiles. */
-    margin-inline: 1.33rem;
+    /* The inline margin is space for the scroll bar, particularly on mobiles. 
+    1.33x12 px = almost 16 px (15.96) */
+    margin-inline: variables.$regular-negative-space;
 }
 
-header,
 main {
-    margin-inline: 1rem;
-}
-
-main a,
-.modal-by-Marie-Pierre-Lessard a {
-    color: variables.$clr-real-black;
+    @include mixins.links-within-copy-by-Marie-Pierre-Lessard;
+    margin-inline: variables.$small-negative-space;
 }
 
 h1 {
@@ -95,95 +43,18 @@ h1 {
 }
 
 h1,
+//Note that the H2s of matrix sections have a different colour.
+/* TO DO: if I create partials for the different atomic-design components, I need to @use them in the right order, or the wrong style will be overriden! */
 h2,
 h3 {
     color: variables.$clr-accent-dark-purple;
 }
 
-.priority-by-Marie-Pierre-Lessard h2 {
-    font-weight: 400;
-    font-size: 1rem;
-    color: variables.$clr-real-black;
-    /* Standard browser margins overridden to limit distance between h2 and the border above. */
-    margin-block: .5rem;
-}
+/* #endregion Global styling */
 
-select>option {
-    font-weight: 700;
-}
-
-select>optgroup {
-    font-style: italic;
-    background-color: variables.$clr-accent-purple-low-intensity;
-}
-
-select>optgroup>option {
-    /* Otherwise, the styling of the optgroup is inherited. */
-    font-style: normal;
-}
-
-/* #region Logo in light mode: SVG and its children */
-/* .logo-by-Marie-Pierre-Lessard is a SVG file */
-/* MAYBE TO DO: on small mobiles: 40px or 3.33rem; eventually replace by more responsive measurements 
-Probably set sizes in header in vw. */
-/* Note: I thought that I had to change the measurements in .logo__rectangle1-by-Marie-Pierre-Lessard and .logo__rectangle2-by-Marie-Pierre-Lessard, but removing the inline sizing of the SVG element is sufficient to control the size of the logo. */
-.logo-by-Marie-Pierre-Lessard {
-    height: 3.33rem;
-    width: 3.33rem;
-    /* padding-inline and padding-top: are to improve look of outline */
-    padding-inline: .5rem;
-    padding-top: .25rem;
-}
-
-.logo__rectangle1-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-base-almost-white;
-}
-
-.logo__rectangle2-by-Marie-Pierre-Lessard {
-    stroke: variables.$clr-accent-dark-purple;
-}
-
-.logo__path1-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-accent-dark-purple;
-}
-
-.logo__path2-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-accent-dark-purple;
-}
-
-.logo__path3-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-accent-dark-purple;
-}
-
-.logo__path4-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-accent-dark-purple;
-}
-
-.logo__path5-by-Marie-Pierre-Lessard {
-    stroke: variables.$clr-accent-dark-purple;
-}
-
-.logo-by-Marie-Pierre-Lessard line {
-    stroke: variables.$clr-accent-dark-purple;
-}
-
-/* #endregion about logo in light mode */
-
-/* MAYBE TO DO: for small mobiles: 36px, i.e. 3rem; eventually replace by more responsive measurements */
-/* Help icon smaller than logo because it has a thicker border, and it otherwise looks wrong. 
-Visually, the thicker border gives more weight/more emphasis to the right side of the header.*/
-.help-icon-by-Marie-Pierre-Lessard {
-    width: 3rem;
-    height: 3rem;
-    /* padding-top: is to improve look of outline */
-    padding-top: .25rem;
-    fill: variables.$clr-accent-dark-purple;
-    cursor: help;
-}
-
-.help-btn-by-Marie-Pierre-Lessard {
-    border: none;
-    background-color: transparent;
+/* .copyright-by-Marie-Pierre-Lessard is inside of main */
+.copyright-by-Marie-Pierre-Lessard {
+    margin-block: variables.$regular-negative-space;
 }
 
 .global-header-by-Marie-Pierre-Lessard {
@@ -191,8 +62,70 @@ Visually, the thicker border gives more weight/more emphasis to the right side o
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin-inline: variables.$small-negative-space;
+
+    /* TO DO: Different clients would have different logos, so is it really a good strategy to put the logo and help icon in the block of .global-header-by-Marie-Pierre-Lessard? */
+    /* #region Logo in light mode: SVG and its children */
+    /* .logo-by-Marie-Pierre-Lessard is a SVG file */
+    /* MAYBE TO DO: on small mobiles: 40px or 3.33rem; eventually replace by more responsive measurements 
+    Probably set sizes in header in vw. */
+    /* Note: I thought that I had to change the measurements in .logo__rectangle1-by-Marie-Pierre-Lessard and .logo__rectangle2-by-Marie-Pierre-Lessard, but removing the inline sizing of the SVG element is sufficient to control the size of the logo. */
+    .logo-by-Marie-Pierre-Lessard {
+        height: 3.33rem;
+        width: 3.33rem;
+        /* padding-inline and padding-top: are to improve look of outline */
+        padding-inline: variables.$x-small-negative-space;
+        padding-top: variables.$xx-small-negative-space;
+
+        .logo__rectangle1-by-Marie-Pierre-Lessard {
+            fill: variables.$clr-base-almost-white;
+        }
+
+        .logo__rectangle2-by-Marie-Pierre-Lessard,
+        .logo__path5-by-Marie-Pierre-Lessard,
+        line {
+            stroke: variables.$clr-accent-dark-purple;
+        }
+
+        .logo__path1-by-Marie-Pierre-Lessard,
+        .logo__path2-by-Marie-Pierre-Lessard,
+        .logo__path3-by-Marie-Pierre-Lessard,
+        .logo__path4-by-Marie-Pierre-Lessard {
+            fill: variables.$clr-accent-dark-purple;
+        }
+    }
+
+    /* #endregion about logo in light mode */
+
+    /* MAYBE TO DO: for small mobiles: 36px, i.e. 3rem; eventually replace by more responsive measurements */
+    .help-btn-by-Marie-Pierre-Lessard {
+        border: none;
+        background-color: transparent;
+
+        /* Help icon smaller than logo because it has a thicker border, and it otherwise looks wrong. 
+        Visually, the thicker border gives more weight/more emphasis to the right side of the header.*/
+        .help-icon-by-Marie-Pierre-Lessard {
+            width: 3rem;
+            height: 3rem;
+            /* padding-top: is to improve look of outline */
+            padding-top: variables.$xx-small-negative-space;
+            fill: variables.$clr-accent-dark-purple;
+            cursor: help;
+        }
+
+        .help-icon-by-Marie-Pierre-Lessard:hover {
+            /* For some reason, the colour of the SVG doesn't change on focus. */
+            fill: variables.$clr-accent-purple-high-intensity;
+        }
+
+        .help-icon-by-Marie-Pierre-Lessard:active {
+            /* For some reason, the colour of the SVG doesn't change on focus. */
+            fill: variables.$clr-accent-purple-low-intensity;
+        }
+    }
 }
 
+/* TO DO: a mixin for the nav */
 /* The colours of the main navigation DO NOT change in dark mode */
 .main-nav-container-by-Marie-Pierre-Lessard {
     background-color: variables.$clr-accent-dark-purple;
@@ -200,116 +133,163 @@ Visually, the thicker border gives more weight/more emphasis to the right side o
 
     position: sticky;
     top: 0;
-}
 
-/* .main-nav-by-Marie-Pierre-Lessard is a UL element */
-.main-nav-by-Marie-Pierre-Lessard {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    /* .main-nav-by-Marie-Pierre-Lessard is a UL element */
+    .main-nav-by-Marie-Pierre-Lessard {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
 
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
 
-    border: 1px solid variables.$clr-real-black;
-}
+        border: 1px solid variables.$clr-real-black;
 
-.main-nav-by-Marie-Pierre-Lessard li {
-    height: 2rem;
-    border: 1px solid variables.$clr-base-almost-white;
-    text-align: center;
-}
+        li {
+            height: 2rem;
+            border: 1px solid variables.$clr-base-almost-white;
+            text-align: center;
+        }
 
-.main-nav-by-Marie-Pierre-Lessard a {
-    /* display: block; is required to make links fill the whole width and height of the parent */
-    display: block;
-    width: 100%;
-    height: 100%;
-    /* align-content centers the text vertically inside of the a element. */
-    align-content: center;
-    text-decoration: none;
-    color: variables.$clr-CTA-yellow;
+        /* Putting the pseudo-class :first-of-type inside of the block of the li element does not work. */
+        li:first-of-type {
+
+            a:hover,
+            a:focus {
+                background-color: variables.$clr-accent-purple-high-intensity;
+            }
+        }
+
+        li:nth-of-type(2) {
+
+            a:hover,
+            a:focus {
+                background-color: variables.$clr-accent-purple-medium-high-intensity;
+            }
+        }
+
+        li:nth-of-type(3) {
+
+            a:hover,
+            a:focus {
+                background-color: variables.$clr-accent-purple-medium-intensity;
+            }
+        }
+
+        li:last-of-type {
+
+            a:hover,
+            a:focus {
+                background-color: variables.$clr-accent-purple-low-intensity;
+            }
+        }
+
+        a {
+            /* display: block; is required to make links fill the whole width and height of the parent */
+            display: block;
+            width: 100%;
+            height: 100%;
+            /* align-content centers the text vertically inside of the a element. */
+            align-content: center;
+            text-decoration: none;
+            color: variables.$clr-CTA-yellow;
+        }
+
+        a:hover,
+        a:focus {
+            text-decoration: underline;
+            /* --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. 
+                        Bright blue doesn't work either. */
+            color: variables.$clr-real-black;
+        }
+
+        a:active {
+            text-decoration: none;
+            /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
+            color: variables.$clr-CTA-yellow;
+        }
+    }
 }
 
 .urgent-important-matrix-by-Marie-Pierre-Lessard {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.33rem;
-    margin-block: 1.33rem;
+    gap: variables.$regular-negative-space;
+    margin-block: variables.$regular-negative-space;
+
+    /* .priority-by-Marie-Pierre-Lessard class represents sections */
+    .priority-by-Marie-Pierre-Lessard {
+        border: 1px solid variables.$clr-real-black;
+        border-radius: 9px;
+        padding-inline: variables.$x-small-negative-space;
+        min-height: 3.5rem;
+
+        /* Standard browser margins of ul and li overridden: 
+        - to limit distance between dynamic elements and the h2 and the border below;
+        - to put bullets closer to the right-hand border. 
+        TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
+
+        ul {
+            padding-inline: variables.$medium-large-negative-space;
+            margin-block: 0;
+        }
+
+        li {
+            margin-block: variables.$x-small-negative-space;
+        }
+
+        h2 {
+            font-weight: 400;
+            font-size: 1rem;
+            color: variables.$clr-real-black;
+            /* Standard browser margins overridden to limit distance between h2 and the border above. */
+            margin-block: variables.$x-small-negative-space;
+        }
+    }
+
+    /* TO DO: a mixin with a list for the different background colours, also used in rollover effects on the nav. */
+    .priority--1-by-Marie-Pierre-Lessard {
+        background-color: variables.$clr-accent-purple-high-intensity;
+    }
+
+    .priority--2-by-Marie-Pierre-Lessard {
+        background-color: variables.$clr-accent-purple-medium-high-intensity;
+    }
+
+    .priority--3-by-Marie-Pierre-Lessard {
+        background-color: variables.$clr-accent-purple-medium-intensity;
+    }
+
+    .priority--4-by-Marie-Pierre-Lessard {
+        background-color: variables.$clr-accent-purple-low-intensity;
+    }
 }
 
 @media (min-width: 768px) {
     .urgent-important-matrix-by-Marie-Pierre-Lessard {
-        display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, auto);
     }
 }
 
-/* .priority-by-Marie-Pierre-Lessard class represents sections */
-.priority-by-Marie-Pierre-Lessard {
-    border: 1px solid variables.$clr-real-black;
-    border-radius: 9px;
-    padding-inline: .5rem;
-    min-height: 3.5rem;
-}
-
-.priority--1-by-Marie-Pierre-Lessard {
-    background-color: variables.$clr-accent-purple-high-intensity;
-}
-
-.priority--2-by-Marie-Pierre-Lessard {
-    background-color: variables.$clr-accent-purple-medium-high-intensity;
-}
-
-.priority--3-by-Marie-Pierre-Lessard {
-    background-color: variables.$clr-accent-purple-medium-intensity;
-}
-
-.priority--4-by-Marie-Pierre-Lessard {
-    background-color: variables.$clr-accent-purple-low-intensity;
-}
-
-/* Standard browser margins of ul and li overridden: 
-- to limit distance between dynamic elements and the h2 and the border below;
-- to put bullets closer to the right-hand border. 
-TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
-.priority-by-Marie-Pierre-Lessard ul {
-    padding-inline: 2rem;
-    margin-block: 0;
-}
-
-.priority-by-Marie-Pierre-Lessard li {
-    margin-block: .5rem;
-}
-
 .intro-msg-by-Marie-Pierre-Lessard {
     background-color: variables.$clr-CTA-yellow;
     border-radius: 9px;
-    margin-block: 1.33rem;
-    padding-block: .5rem;
-    padding-inline: .5rem;
-}
+    margin-block: variables.$regular-negative-space;
+    padding: variables.$x-small-negative-space;
 
-.intro-msg-by-Marie-Pierre-Lessard .align-svg-with-text-by-Marie-Pierre-Lessard {
-    /* When I applied display: flex; to the span elements that contain parentheses (also in span elements), each with a SVG to align with parentheses according to the same principle that I discovered for the middle footer button, the parent span element behaved like a block-level element. It was necessary to choose display: inline-flex; to make sure that the span element was not treated like a block-level element.
-    The footer button (also an inline element) did not start behaving like a block element when I turned it into a flexbox, but maybe that is because browsers are fault-tolerant, so I replaced display: flex; by display: inline-flex; in the footer as well. 
-    See the following source about display: inline-*, such as display: inline-flex; and display: inline-grid; : 
-    https://stackoverflow.com/questions/24313271/display-property-differences-for-inline-something */
-    display: inline-flex;
-    flex-direction: row;
-}
+    .align-svg-with-text-by-Marie-Pierre-Lessard {
+        /* When I applied display: flex; to the span elements that contain parentheses (also in span elements), each with a SVG to align with parentheses according to the same principle that I discovered for the middle footer button, the parent span element behaved like a block-level element. It was necessary to choose display: inline-flex; to make sure that the span element was not treated like a block-level element.
+        The footer button (also an inline element) did not start behaving like a block element when I turned it into a flexbox, but maybe that is because browsers are fault-tolerant, so I replaced display: flex; by display: inline-flex; in the footer as well. 
+        See the following source about display: inline-*, such as display: inline-flex; and display: inline-grid; : 
+        https://stackoverflow.com/questions/24313271/display-property-differences-for-inline-something */
+        display: inline-flex;
+        flex-direction: row;
+    }
 
-.intro-msg-by-Marie-Pierre-Lessard svg {
-    height: 1rem;
-}
-
-.help-by-Marie-Pierre-Lessard {
-    margin-block: 1.33rem;
-}
-
-.copyright-by-Marie-Pierre-Lessard {
-    margin-block: 1.33rem;
+    svg {
+        height: 1rem;
+    }
 }
 
 /* The colours of the global footer DO NOT change in dark mode */
@@ -320,55 +300,173 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
 
     position: sticky;
     bottom: 0;
+
+
+    button {
+        @include mixins.big-app-buttons;
+
+        /* Without display: flex; (or display: inline-flex;) and align-items: center; the SVGs sat higher than the slash, i.e. the SVGs were floating above the baseline. 
+        The text has to be in a span element, otherwise this doesn't work. 
+        I couldn't find how to do this on the Internet, so I discovered the solution through experimentation. 
+        This is the same problem as when you try to put an image and an input (two inline items) next to each other, but the picture sits higher than the input unless one uses display: flex; to align them. 
+        
+        Interestingly, it looks like the Figma people might not know how to do this because Figma places the icons higher than the slash, and there is no way to adjust this in Figma. */
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            fill: variables.$clr-CTA-yellow;
+
+            path {
+                height: 2rem;
+            }
+        }
+
+        span {
+            font-size: 2rem;
+        }
+    }
+
+    button:hover,
+    button:focus {
+        svg {
+            fill: variables.$clr-accent-dark-purple;
+        }
+    }
 }
 
-.global-footer-by-Marie-Pierre-Lessard button,
-.modal-by-Marie-Pierre-Lessard button {
-    background-color: variables.$clr-accent-dark-purple;
-    border: 1px solid variables.$clr-base-almost-white;
-    color: variables.$clr-CTA-yellow;
-    padding-block: .5rem;
-    cursor: pointer;
-}
+/* TO DO: to make blocks reusable, these declarations should be turned into mixins and variables and used inside of each relevant block. 
+Here, I need variants for light vs. dark mode inside of a list. */
+/* TO DO: a mixin is useful in such a situation, where I want all the declarations of the global footer/... inside of its block. */
+.global-footer-by-Marie-Pierre-Lessard,
+.modal-by-Marie-Pierre-Lessard {
 
-.global-footer-by-Marie-Pierre-Lessard button {
-    /* Without display: flex; (or display: inline-flex;) and align-items: center; the SVGs sat higher than the slash, i.e. the SVGs were floating above the baseline. 
-    The text has to be in a span element, otherwise this doesn't work. 
-    I couldn't find how to do this on the Internet, so I discovered the solution through experimentation. 
-    This is the same problem as when you try to put an image and an input (two inline items) next to each other, but the picture sits higher than the input unless one uses display: flex; to align them. 
-    
-    Interestingly, it looks like the Figma people might not know how to do this because Figma places the icons higher than the slash, and there is no way to adjust this in Figma. */
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.global-footer-by-Marie-Pierre-Lessard button svg {
-    fill: variables.$clr-CTA-yellow;
-}
-
-.global-footer-by-Marie-Pierre-Lessard button svg path {
-    height: 2rem;
-}
-
-.global-footer-by-Marie-Pierre-Lessard button span {
-    font-size: 2rem;
+    button {
+        border: 1px solid variables.$clr-base-almost-white;
+    }
 }
 
 .modal-by-Marie-Pierre-Lessard {
+    @include mixins.links-within-copy-by-Marie-Pierre-Lessard;
+
     position: relative;
 
     background-color: variables.$clr-base-almost-white;
     border: none;
     width: 84%;
     padding: 0;
+
+    button {
+        @include mixins.big-app-buttons;
+    }
+
+    .close-btn-by-Marie-Pierre-Lessard {
+        height: 3rem;
+        width: 3rem;
+
+        position: absolute;
+        top: 0;
+        right: 0;
+        /* Previous option, before positioning: 
+        display: block;
+        justify-self: right; */
+
+        svg {
+            height: 2rem;
+            width: 2rem;
+            fill: variables.$clr-CTA-yellow;
+        }
+    }
+
+    .close-btn-by-Marie-Pierre-Lessard:hover,
+    .close-btn-by-Marie-Pierre-Lessard:focus {
+        svg {
+            fill: variables.$clr-accent-dark-purple;
+        }
+    }
+
+    /* Maybe TO DO: active effect on close button */
+
+    form {
+
+        fieldset {
+            border: none;
+            padding-top: variables.$x-small-negative-space;
+            padding-bottom: 3rem;
+            padding-inline: variables.$small-negative-space;
+
+            display: flex;
+            flex-direction: column;
+
+            label {
+                margin-top: variables.$x-small-negative-space;
+                margin-bottom: variables.$xxx-small-negative-space;
+            }
+
+            input,
+            textarea,
+            select {
+                margin-top: variables.$xxx-small-negative-space;
+                margin-bottom: variables.$x-small-negative-space;
+                border-radius: 9px;
+            }
+
+            select {
+
+                /* For some reason, unlike Chrome, Opera does not find the internal styling attribute size="9" sufficient to make the select element tall.
+                That browser requires both this attribute and a corresponding CSS styling. 
+                The select element was visible as a line on which the user could focus, but even the focus didn't make the select element expand.
+                It took me a really long time to figure this out. I checked many other potential reasons before this one.
+                */
+                min-height: 9rem;
+
+                option {
+                    font-weight: 700;
+                }
+
+                optgroup {
+                    font-style: italic;
+                    background-color: variables.$clr-accent-purple-low-intensity;
+
+                    option {
+                        /* Since I cannot use the CSS selectors such as > in SCCS, I have to specify that these options have a different font weight than the options that are direct children of select.  */
+                        font-weight: 400;
+                        /* Otherwise, the styling of the optgroup is inherited. */
+                        font-style: normal;
+                    }
+                }
+            }
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .modal__warning-by-Marie-Pierre-Lessard {
+        margin-top: variables.$x-small-negative-space;
+        margin-bottom: 0;
+    }
 }
 
 .modal--help-by-Marie-Pierre-Lessard {
-    margin-block: 1.33rem;
+    margin-block: variables.$regular-negative-space;
+
+    /* .help-by-Marie-Pierre-Lessard is a section element */
+    .help-by-Marie-Pierre-Lessard {
+        margin-block: variables.$regular-negative-space;
+    }
 }
 
+/* Putting a pseudo-element like ::backdrop inside of the block of its selector doesn't work. */
 .modal-by-Marie-Pierre-Lessard::backdrop {
     background-color: variables.$clr-base-transparent-greyish-blue;
 }
@@ -376,177 +474,51 @@ TO DO: replace ul&li by sth else if that is what I create in JavaScript*/
 .modal--cat-edit-del-by-Marie-Pierre-Lessard,
 .modal--task-edit-del-by-Marie-Pierre-Lessard,
 .modal--help-by-Marie-Pierre-Lessard {
-    padding: 2rem;
-}
-
-.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard {
-    height: 3rem;
-    width: 3rem;
-
-    position: absolute;
-    top: 0;
-    right: 0;
-    /* Previous option, before positioning: 
-    display: block;
-    justify-self: right; */
-}
-
-.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard svg {
-    height: 2rem;
-    width: 2rem;
-    fill: variables.$clr-CTA-yellow;
-}
-
-.modal-by-Marie-Pierre-Lessard fieldset {
-    border: none;
-    padding-top: .5rem;
-    padding-bottom: 3rem;
-    padding-inline: 1rem;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.modal-by-Marie-Pierre-Lessard label {
-    margin-top: .5rem;
-    margin-bottom: .2rem;
-}
-
-.modal-by-Marie-Pierre-Lessard input,
-.modal-by-Marie-Pierre-Lessard textarea,
-.modal-by-Marie-Pierre-Lessard select {
-    margin-top: .2rem;
-    margin-bottom: .5rem;
-    border-radius: 9px;
-}
-
-.modal__warning-by-Marie-Pierre-Lessard {
-    margin-top: .5rem;
-    margin-bottom: 0;
-}
-
-.modal-by-Marie-Pierre-Lessard form footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    padding: variables.$medium-large-negative-space;
 }
 
 /* #region Rollover effects */
+/* TO DO: is there a way to make this DRYer in SCSS? It's more repetitive if I move these in the block of each class. */
+.global-footer-by-Marie-Pierre-Lessard,
+.modal-by-Marie-Pierre-Lessard {
+
+    button:hover,
+    button:focus {
+        /* Daltonians cannot see text in --clr-CTA-yellow on a --clr-accent-purple-high-intensity background, so the buttons have to turn yellow in both light and dark mode. */
+        background-color: variables.$clr-CTA-yellow;
+        color: variables.$clr-accent-dark-purple;
+    }
+}
+
+.global-footer-by-Marie-Pierre-Lessard,
+.modal-by-Marie-Pierre-Lessard {
+    button:active {
+        /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
+        background-color: variables.$clr-accent-purple-medium-intensity;
+    }
+}
+
 /* I deleted the a parent of the logo, so I am hiding its rollover effects. I am keeping the styling in case I change my mind because this was time-consuming. 
-.logo-by-Marie-Pierre-Lessard:hover .logo__rectangle2-by-Marie-Pierre-Lessard,
-.logo-by-Marie-Pierre-Lessard:hover .logo__path5-by-Marie-Pierre-Lessard,
-.logo-by-Marie-Pierre-Lessard:hover line {
-    stroke: variables.$clr-accent-purple-high-intensity;
+.logo-by-Marie-Pierre-Lessard:hover {
+    .logo__rectangle2-by-Marie-Pierre-Lessard, .logo__path5-by-Marie-Pierre-Lessard, line {
+        stroke: variables.$clr-accent-purple-high-intensity;
+    }
+
+    .logo__path1-by-Marie-Pierre-Lessard, .logo__path2-by-Marie-Pierre-Lessard, .logo__path3-by-Marie-Pierre-Lessard, .logo__path4-by-Marie-Pierre-Lessard {
+        fill: variables.$clr-accent-purple-high-intensity;
+    }
 }
 
-.logo-by-Marie-Pierre-Lessard:hover .logo__path1-by-Marie-Pierre-Lessard,
-.logo-by-Marie-Pierre-Lessard:hover .logo__path2-by-Marie-Pierre-Lessard,
-.logo-by-Marie-Pierre-Lessard:hover .logo__path3-by-Marie-Pierre-Lessard,
-.logo-by-Marie-Pierre-Lessard:hover .logo__path4-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-accent-purple-high-intensity;
-}
+.logo-by-Marie-Pierre-Lessard:active {
+    .logo__rectangle2-by-Marie-Pierre-Lessard, .logo__path5-by-Marie-Pierre-Lessard, line {
+        stroke: variables.$clr-accent-purple-low-intensity;
+    }
 
-.logo-by-Marie-Pierre-Lessard:active .logo__rectangle2-by-Marie-Pierre-Lessard,
-.logo-by-Marie-Pierre-Lessard:active .logo__path5-by-Marie-Pierre-Lessard,
-.logo-by-Marie-Pierre-Lessard:active line {
-    stroke: variables.$clr-accent-purple-low-intensity;
-}
-
-.logo-by-Marie-Pierre-Lessard:active .logo__path1-by-Marie-Pierre-Lessard,
-.logo-by-Marie-Pierre-Lessard:active .logo__path2-by-Marie-Pierre-Lessard,
-.logo-by-Marie-Pierre-Lessard:active .logo__path3-by-Marie-Pierre-Lessard,
-.logo-by-Marie-Pierre-Lessard:active .logo__path4-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-accent-purple-high-intensity;
+    .logo__path1-by-Marie-Pierre-Lessard, .logo__path2-by-Marie-Pierre-Lessard, .logo__path3-by-Marie-Pierre-Lessard, .logo__path4-by-Marie-Pierre-Lessard {
+        fill: variables.$clr-accent-purple-high-intensity;
+    }
 }
 */
-
-.help-icon-by-Marie-Pierre-Lessard:hover {
-    /* For some reason, the colour of the SVG doesn't change on focus. */
-    fill: variables.$clr-accent-purple-high-intensity;
-}
-
-.help-icon-by-Marie-Pierre-Lessard:active {
-    /* For some reason, the colour of the SVG doesn't change on focus. */
-    fill: variables.$clr-accent-purple-low-intensity;
-}
-
-.main-nav-by-Marie-Pierre-Lessard a:hover,
-.main-nav-by-Marie-Pierre-Lessard a:focus {
-    text-decoration: underline;
-    /* --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. 
-    Bright blue doesn't work either. */
-    color: variables.$clr-real-black;
-}
-
-.main-nav-by-Marie-Pierre-Lessard li:first-of-type a:hover,
-.main-nav-by-Marie-Pierre-Lessard li:first-of-type a:focus {
-    background-color: variables.$clr-accent-purple-high-intensity;
-}
-
-.main-nav-by-Marie-Pierre-Lessard li:nth-of-type(2) a:hover,
-.main-nav-by-Marie-Pierre-Lessard li:nth-of-type(2) a:focus {
-    background-color: variables.$clr-accent-purple-medium-high-intensity;
-}
-
-.main-nav-by-Marie-Pierre-Lessard li:nth-of-type(3) a:hover,
-.main-nav-by-Marie-Pierre-Lessard li:nth-of-type(3) a:focus {
-    background-color: variables.$clr-accent-purple-medium-intensity;
-}
-
-.main-nav-by-Marie-Pierre-Lessard li:last-of-type a:hover,
-.main-nav-by-Marie-Pierre-Lessard li:last-of-type a:focus {
-    background-color: variables.$clr-accent-purple-low-intensity;
-}
-
-.main-nav-by-Marie-Pierre-Lessard a:active {
-    text-decoration: none;
-    /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
-    color: variables.$clr-CTA-yellow;
-}
-
-main a:hover,
-main a:focus,
-.modal-by-Marie-Pierre-Lessard a:hover,
-.modal-by-Marie-Pierre-Lessard a:focus {
-    color: variables.$clr-accent-dark-purple;
-}
-
-.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:hover svg,
-.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:focus svg {
-    fill: variables.$clr-CTA-yellow;
-}
-
-main a:active,
-.modal-by-Marie-Pierre-Lessard a:active {
-    color: variables.$clr-CTA-yellow;
-}
-
-.global-footer-by-Marie-Pierre-Lessard button:hover,
-.global-footer-by-Marie-Pierre-Lessard button:focus,
-.modal-by-Marie-Pierre-Lessard button:hover,
-.modal-by-Marie-Pierre-Lessard button:focus {
-    /* Daltonians cannot see text in --clr-CTA-yellow on a --clr-accent-purple-high-intensity background, so the buttons have to turn yellow in both light and dark mode. */
-    background-color: variables.$clr-CTA-yellow;
-    color: variables.$clr-accent-dark-purple;
-}
-
-.global-footer-by-Marie-Pierre-Lessard button:hover svg,
-.global-footer-by-Marie-Pierre-Lessard button:focus svg,
-.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:hover svg,
-.modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:focus svg {
-    fill: variables.$clr-accent-dark-purple;
-}
-
-.global-footer-by-Marie-Pierre-Lessard button:active,
-.modal-by-Marie-Pierre-Lessard button:active {
-    /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
-    background-color: variables.$clr-accent-purple-medium-intensity;
-}
-
 /* #endregion Rollover effects */
 
 /* #region Dark mode */
@@ -556,191 +528,227 @@ MAYBE TO DO or try in some other assignment: Since 2024, it is possible to use t
 /* .dark-mode-by-Marie-Pierre-Lessard applies to body element  */
 .dark-mode-by-Marie-Pierre-Lessard {
     background-color: variables.$clr-accent-purple-high-intensity;
-}
 
-/* #region Logo in dark mode: SVG and its children */
-/* .logo-by-Marie-Pierre-Lessard is a SVG file */
-.dark-mode-by-Marie-Pierre-Lessard .logo__rectangle1-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-accent-purple-high-intensity;
-}
+    /* #region Logo in dark mode: SVG and its children */
+    /* .logo-by-Marie-Pierre-Lessard is a SVG file */
+    .logo-by-Marie-Pierre-Lessard {
 
-.dark-mode-by-Marie-Pierre-Lessard .logo__rectangle2-by-Marie-Pierre-Lessard {
-    stroke: variables.$clr-base-bright-blue;
-}
+        .logo__rectangle1-by-Marie-Pierre-Lessard {
+            fill: variables.$clr-accent-purple-high-intensity;
+        }
 
-.dark-mode-by-Marie-Pierre-Lessard .logo__path1-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-base-bright-blue;
-}
+        .logo__rectangle2-by-Marie-Pierre-Lessard,
+        .logo__path5-by-Marie-Pierre-Lessard,
+        line {
+            stroke: variables.$clr-base-bright-blue;
+        }
 
-.dark-mode-by-Marie-Pierre-Lessard .logo__path2-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-base-bright-blue;
-}
+        .logo__path1-by-Marie-Pierre-Lessard,
+        .logo__path2-by-Marie-Pierre-Lessard,
+        .logo__path3-by-Marie-Pierre-Lessard,
+        .logo__path4-by-Marie-Pierre-Lessard {
+            fill: variables.$clr-base-bright-blue;
+        }
+    }
 
-.dark-mode-by-Marie-Pierre-Lessard .logo__path3-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-base-bright-blue;
-}
+    /* #endregion about logo in dark mode */
 
-.dark-mode-by-Marie-Pierre-Lessard .logo__path4-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-base-bright-blue;
-}
+    h1,
+    h2,
+    h3 {
+        color: variables.$clr-base-bright-blue;
+    }
 
-.dark-mode-by-Marie-Pierre-Lessard .logo__path5-by-Marie-Pierre-Lessard {
-    stroke: variables.$clr-base-bright-blue;
-}
+    .priority-by-Marie-Pierre-Lessard {
+        h2 {
+            color: variables.$clr-real-black;
+        }
+    }
 
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard line {
-    stroke: variables.$clr-base-bright-blue;
-}
+    .help-icon-by-Marie-Pierre-Lessard {
+        fill: variables.$clr-base-bright-blue;
+    }
 
-/* #endregion about logo in dark mode */
+    .main-nav-by-Marie-Pierre-Lessard {
+        li {
+            border: 1px solid variables.$clr-accent-purple-medium-high-intensity;
+        }
+    }
 
-.dark-mode-by-Marie-Pierre-Lessard h1,
-.dark-mode-by-Marie-Pierre-Lessard h2,
-.dark-mode-by-Marie-Pierre-Lessard h3 {
-    color: variables.$clr-base-bright-blue;
-}
+    .priority--1-by-Marie-Pierre-Lessard {
+        background-color: variables.$clr-base-bright-blue;
+    }
 
-.dark-mode-by-Marie-Pierre-Lessard .priority-by-Marie-Pierre-Lessard h2 {
-    color: variables.$clr-real-black;
-}
+    .priority--2-by-Marie-Pierre-Lessard {
+        background-color: variables.$clr-base-medium-blue;
+    }
 
-.dark-mode-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-base-bright-blue;
-}
+    .priority--3-by-Marie-Pierre-Lessard {
+        background-color: variables.$clr-base-light-blue;
+    }
 
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li,
-.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button,
-.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard button {
-    border: 1px solid variables.$clr-accent-purple-medium-high-intensity;
-}
+    .priority--4-by-Marie-Pierre-Lessard {
+        background-color: variables.$clr-base-very-light-blue;
+    }
 
-.dark-mode-by-Marie-Pierre-Lessard .priority--1-by-Marie-Pierre-Lessard {
-    background-color: variables.$clr-base-bright-blue;
-}
+    .global-footer-by-Marie-Pierre-Lessard,
+    .modal-by-Marie-Pierre-Lessard {
+        button {
+            border: 1px solid variables.$clr-accent-purple-medium-high-intensity;
+        }
+    }
 
-.dark-mode-by-Marie-Pierre-Lessard .priority--2-by-Marie-Pierre-Lessard {
-    background-color: variables.$clr-base-medium-blue;
-}
+    .modal-by-Marie-Pierre-Lessard {
+        background-color: variables.$clr-accent-purple-high-intensity;
+    }
 
-.dark-mode-by-Marie-Pierre-Lessard .priority--3-by-Marie-Pierre-Lessard {
-    background-color: variables.$clr-base-light-blue;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .priority--4-by-Marie-Pierre-Lessard {
-    background-color: variables.$clr-base-very-light-blue;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard {
-    background-color: variables.$clr-accent-purple-high-intensity;
-}
-
-/* #region Rollover effects in dark mode */
-/* I deleted the a parent of the logo, so I am hiding its rollover effects. I am keeping the styling in case I change my mind because this was time-consuming. 
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__rectangle2-by-Marie-Pierre-Lessard,
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path5-by-Marie-Pierre-Lessard,
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover line {
-    stroke: variables.$clr-base-light-blue;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path1-by-Marie-Pierre-Lessard,
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path2-by-Marie-Pierre-Lessard,
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path3-by-Marie-Pierre-Lessard,
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path4-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-base-light-blue;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__rectangle2-by-Marie-Pierre-Lessard,
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path5-by-Marie-Pierre-Lessard,
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active line {
-    stroke: variables.$clr-CTA-yellow;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path1-by-Marie-Pierre-Lessard,
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path2-by-Marie-Pierre-Lessard,
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path3-by-Marie-Pierre-Lessard,
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path4-by-Marie-Pierre-Lessard {
-    fill: variables.$clr-base-light-blue;
-}
-*/
-
-.dark-mode-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard:hover {
-    /* For some reason, the colour doesn't change on focus. */
-    fill: variables.$clr-base-light-blue;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard:active {
-    /* For some reason, the colour doesn't change on focus. */
-    fill: variables.$clr-CTA-yellow;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard a:hover,
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard a:focus {
-    text-decoration: underline;
-    /* --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. 
+    /* #region Rollover effects in dark mode */
+    /* I deleted the a parent of the logo, so I am hiding its rollover effects (in CSS, not SCSS). 
+    I am keeping the styling in case I change my mind because this was time-consuming. 
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__rectangle2-by-Marie-Pierre-Lessard,
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path5-by-Marie-Pierre-Lessard,
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover line {
+        stroke: variables.$clr-base-light-blue;
+    }
+    
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path1-by-Marie-Pierre-Lessard,
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path2-by-Marie-Pierre-Lessard,
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path3-by-Marie-Pierre-Lessard,
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:hover .logo__path4-by-Marie-Pierre-Lessard {
+        fill: variables.$clr-base-light-blue;
+    }
+    
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__rectangle2-by-Marie-Pierre-Lessard,
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path5-by-Marie-Pierre-Lessard,
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active line {
+        stroke: variables.$clr-CTA-yellow;
+    }
+    
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path1-by-Marie-Pierre-Lessard,
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path2-by-Marie-Pierre-Lessard,
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path3-by-Marie-Pierre-Lessard,
+    .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard:active .logo__path4-by-Marie-Pierre-Lessard {
+        fill: variables.$clr-base-light-blue;
+    }
     */
-    color: variables.$clr-accent-dark-purple;
+
+    .help-icon-by-Marie-Pierre-Lessard:hover {
+        /* For some reason, the colour doesn't change on focus. */
+        fill: variables.$clr-base-light-blue;
+    }
+
+    .help-icon-by-Marie-Pierre-Lessard:active {
+        /* For some reason, the colour doesn't change on focus. */
+        fill: variables.$clr-CTA-yellow;
+    }
+
+    .main-nav-by-Marie-Pierre-Lessard {
+
+        a:hover,
+        a:focus {
+            text-decoration: underline;
+            /* --clr-CTA-yellow looks nice, but even a normally sighted person has a hard time reading it on the lightest purples. 
+            */
+            color: variables.$clr-accent-dark-purple;
+
+        }
+
+        a:active {
+            text-decoration: none;
+            /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
+            color: variables.$clr-CTA-yellow;
+        }
+
+        li:first-of-type {
+
+            a:hover,
+            a:focus {
+                background-color: variables.$clr-base-bright-blue;
+            }
+        }
+
+        li:nth-of-type(2) {
+
+            a:hover,
+            a:focus {
+                background-color: variables.$clr-base-medium-blue;
+            }
+        }
+
+        li:nth-of-type(3) {
+
+            a:hover,
+            a:focus {
+                background-color: variables.$clr-base-light-blue;
+            }
+        }
+
+        li:last-of-type {
+
+            a:hover,
+            a:focus {
+                background-color: variables.$clr-base-very-light-blue;
+            }
+        }
+    }
+
+    main,
+    .modal-by-Marie-Pierre-Lessard {
+
+        a:hover,
+        a:focus {
+            color: variables.$clr-base-bright-blue;
+        }
+    }
+
+    main,
+    .modal-by-Marie-Pierre-Lessard {
+        a:active {
+            color: variables.$clr-CTA-yellow;
+        }
+    }
+
+    .global-footer-by-Marie-Pierre-Lessard,
+    .modal-by-Marie-Pierre-Lessard {
+
+        button:hover,
+        button:focus {
+            background-color: variables.$clr-CTA-yellow;
+            color: variables.$clr-accent-dark-purple;
+        }
+    }
+
+    .global-footer-by-Marie-Pierre-Lessard {
+
+        button:hover,
+        button:focus {
+            svg {
+                fill: variables.$clr-accent-dark-purple;
+            }
+        }
+    }
+
+    .modal-by-Marie-Pierre-Lessard {
+
+        .close-btn-by-Marie-Pierre-Lessard:hover,
+        .close-btn-by-Marie-Pierre-Lessard:focus {
+            svg {
+                fill: variables.$clr-accent-dark-purple;
+            }
+        }
+    }
+
+    .global-footer-by-Marie-Pierre-Lessard,
+    .modal-by-Marie-Pierre-Lessard {
+        button:active {
+            /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
+            background-color: variables.$clr-accent-purple-low-intensity;
+        }
+    }
+
+    /* #endregion about rollover effects in dark mode */
 }
 
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:first-of-type a:hover,
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:first-of-type a:focus {
-    background-color: variables.$clr-base-bright-blue;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:nth-of-type(2) a:hover,
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:nth-of-type(2) a:focus {
-    background-color: variables.$clr-base-medium-blue;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:nth-of-type(3) a:hover,
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:nth-of-type(3) a:focus {
-    background-color: variables.$clr-base-light-blue;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:last-of-type a:hover,
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard li:last-of-type a:focus {
-    background-color: variables.$clr-base-very-light-blue;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .main-nav-by-Marie-Pierre-Lessard a:active {
-    text-decoration: none;
-    /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
-    color: variables.$clr-CTA-yellow;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard main a:hover,
-.dark-mode-by-Marie-Pierre-Lessard main a:focus,
-.modal-by-Marie-Pierre-Lessard a:hover,
-.modal-by-Marie-Pierre-Lessard a:focus {
-    color: variables.$clr-base-bright-blue;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard main a:active,
-.modal-by-Marie-Pierre-Lessard a:active {
-    color: variables.$clr-CTA-yellow;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:hover,
-.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:focus,
-.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard button:hover,
-.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard button:focus {
-    background-color: variables.$clr-CTA-yellow;
-    color: variables.$clr-accent-dark-purple;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:hover svg,
-.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:focus svg,
-.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:hover svg,
-.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard:focus svg {
-    fill: variables.$clr-accent-dark-purple;
-}
-
-.dark-mode-by-Marie-Pierre-Lessard .global-footer-by-Marie-Pierre-Lessard button:active,
-.dark-mode-by-Marie-Pierre-Lessard .modal-by-Marie-Pierre-Lessard button:active {
-    /* MAYBE TO DO: For Daltonians, it might look like the text in --clr-CTA-yellow is becoming invisible for a split second on the light-purple background, but it's close to the flicker that I see, and it's for less than a second... */
-    background-color: variables.$clr-accent-purple-low-intensity;
-}
-
-/* #endregion about rollover effects in dark mode */
 /* #endregion about dark mode */
 
 .hidden {

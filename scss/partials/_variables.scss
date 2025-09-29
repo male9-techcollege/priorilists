@@ -24,3 +24,12 @@ $clr-accent-purple-low-intensity: #DBC7FF;
 /* For priority 4 in light mode */
 $clr-CTA-yellow: #FFF646;
 $clr-real-black: #000000;
+
+/* NEGATIVE SPACE */
+
+$xxx-small-negative-space: .2rem;
+$xx-small-negative-space: .25rem;
+$x-small-negative-space: .5rem;
+$small-negative-space: 1rem;
+$regular-negative-space: 1.33rem; //1.33x12 px=almost 16 px (15.96)
+$medium-large-negative-space: 2rem;
