@@ -15,10 +15,15 @@ the @import has to come after @use rules because @use is more important than @im
 /* For priority 2 in light mode */
 /* For priority 3 in light mode */
 /* For priority 4 in light mode */
+/* NEGATIVE SPACE */
+/* #region Global styling + rollover effects */
+/* TO DO: mixins with lists for light vs. dark mode 
+In these buttons, the border has a diff. colour. */
 /* MAYBE TO DO: 
 Any missing ACCESSIBLE rollover effects in modals and dynamic sections? (two sets: one for light mode and one for dark mode)
 More responsiveness 
 */
+/* #region Global styling */
 html {
   font-size: 12px;
   font-family: Inter, sans-serif;
@@ -33,33 +38,21 @@ body {
   background-color: #F8FFFD;
   color: #000000;
   /* The inline margin is space for the scroll bar, particularly on mobiles. 
-  1.33x12 = almost 16 (15.96) */
+  1.33x12 px = almost 16 px (15.96) */
   margin-inline: 1.33rem;
 }
 
-/* TO DO: to make this reusable, the various margins should be defined as variables, and then I can put this declaration in the block of .global-header-by-Marie-Pierre-Lessard, etc. */
-.global-header-by-Marie-Pierre-Lessard,
 main {
   margin-inline: 1rem;
 }
-
-/* .copyright-by-Marie-Pierre-Lessard is inside of main */
-.copyright-by-Marie-Pierre-Lessard {
-  margin-block: 1.33rem;
-}
-
-main a,
-.modal-by-Marie-Pierre-Lessard a {
+main a {
   color: #000000;
 }
 main a:hover,
-main a:focus,
-.modal-by-Marie-Pierre-Lessard a:hover,
-.modal-by-Marie-Pierre-Lessard a:focus {
+main a:focus {
   color: #6F55A0;
 }
-main a:active,
-.modal-by-Marie-Pierre-Lessard a:active {
+main a:active {
   color: #FFF646;
 }
 
@@ -74,76 +67,10 @@ h3 {
   color: #6F55A0;
 }
 
-.priority-by-Marie-Pierre-Lessard h2 {
-  font-weight: 400;
-  font-size: 1rem;
-  color: #000000;
-  /* Standard browser margins overridden to limit distance between h2 and the border above. */
-  margin-block: 0.5rem;
-}
-
-/* TO DO: Should I move the logo in the block of .global-header-by-Marie-Pierre-Lessard? */
-/* #region Logo in light mode: SVG and its children */
-/* .logo-by-Marie-Pierre-Lessard is a SVG file */
-/* MAYBE TO DO: on small mobiles: 40px or 3.33rem; eventually replace by more responsive measurements 
-Probably set sizes in header in vw. */
-/* Note: I thought that I had to change the measurements in .logo__rectangle1-by-Marie-Pierre-Lessard and .logo__rectangle2-by-Marie-Pierre-Lessard, but removing the inline sizing of the SVG element is sufficient to control the size of the logo. */
-.logo-by-Marie-Pierre-Lessard {
-  height: 3.33rem;
-  width: 3.33rem;
-  /* padding-inline and padding-top: are to improve look of outline */
-  padding-inline: 0.5rem;
-  padding-top: 0.25rem;
-}
-.logo-by-Marie-Pierre-Lessard .logo__rectangle1-by-Marie-Pierre-Lessard {
-  fill: #F8FFFD;
-}
-.logo-by-Marie-Pierre-Lessard .logo__rectangle2-by-Marie-Pierre-Lessard {
-  stroke: #6F55A0;
-}
-.logo-by-Marie-Pierre-Lessard .logo__path1-by-Marie-Pierre-Lessard {
-  fill: #6F55A0;
-}
-.logo-by-Marie-Pierre-Lessard .logo__path2-by-Marie-Pierre-Lessard {
-  fill: #6F55A0;
-}
-.logo-by-Marie-Pierre-Lessard .logo__path3-by-Marie-Pierre-Lessard {
-  fill: #6F55A0;
-}
-.logo-by-Marie-Pierre-Lessard .logo__path4-by-Marie-Pierre-Lessard {
-  fill: #6F55A0;
-}
-.logo-by-Marie-Pierre-Lessard .logo__path5-by-Marie-Pierre-Lessard {
-  stroke: #6F55A0;
-}
-.logo-by-Marie-Pierre-Lessard line {
-  stroke: #6F55A0;
-}
-
-/* #endregion about logo in light mode */
-/* MAYBE TO DO: for small mobiles: 36px, i.e. 3rem; eventually replace by more responsive measurements */
-/* TO DO: should this be in the block of the global header? */
-.help-btn-by-Marie-Pierre-Lessard {
-  border: none;
-  background-color: transparent;
-  /* Help icon smaller than logo because it has a thicker border, and it otherwise looks wrong. 
-  Visually, the thicker border gives more weight/more emphasis to the right side of the header.*/
-}
-.help-btn-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard {
-  width: 3rem;
-  height: 3rem;
-  /* padding-top: is to improve look of outline */
-  padding-top: 0.25rem;
-  fill: #6F55A0;
-  cursor: help;
-}
-.help-btn-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard:hover {
-  /* For some reason, the colour of the SVG doesn't change on focus. */
-  fill: #8B62D9;
-}
-.help-btn-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard:active {
-  /* For some reason, the colour of the SVG doesn't change on focus. */
-  fill: #DBC7FF;
+/* #endregion Global styling */
+/* .copyright-by-Marie-Pierre-Lessard is inside of main */
+.copyright-by-Marie-Pierre-Lessard {
+  margin-block: 1.33rem;
 }
 
 .global-header-by-Marie-Pierre-Lessard {
@@ -151,8 +78,61 @@ Probably set sizes in header in vw. */
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-inline: 1rem;
+  /* TO DO: Different clients would have different logos, so is it really a good strategy to put the logo and help icon in the block of .global-header-by-Marie-Pierre-Lessard? */
+  /* #region Logo in light mode: SVG and its children */
+  /* .logo-by-Marie-Pierre-Lessard is a SVG file */
+  /* MAYBE TO DO: on small mobiles: 40px or 3.33rem; eventually replace by more responsive measurements 
+  Probably set sizes in header in vw. */
+  /* Note: I thought that I had to change the measurements in .logo__rectangle1-by-Marie-Pierre-Lessard and .logo__rectangle2-by-Marie-Pierre-Lessard, but removing the inline sizing of the SVG element is sufficient to control the size of the logo. */
+  /* #endregion about logo in light mode */
+  /* MAYBE TO DO: for small mobiles: 36px, i.e. 3rem; eventually replace by more responsive measurements */
+}
+.global-header-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard {
+  height: 3.33rem;
+  width: 3.33rem;
+  /* padding-inline and padding-top: are to improve look of outline */
+  padding-inline: 0.5rem;
+  padding-top: 0.25rem;
+}
+.global-header-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__rectangle1-by-Marie-Pierre-Lessard {
+  fill: #F8FFFD;
+}
+.global-header-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__rectangle2-by-Marie-Pierre-Lessard,
+.global-header-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path5-by-Marie-Pierre-Lessard,
+.global-header-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard line {
+  stroke: #6F55A0;
+}
+.global-header-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path1-by-Marie-Pierre-Lessard,
+.global-header-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path2-by-Marie-Pierre-Lessard,
+.global-header-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path3-by-Marie-Pierre-Lessard,
+.global-header-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path4-by-Marie-Pierre-Lessard {
+  fill: #6F55A0;
+}
+.global-header-by-Marie-Pierre-Lessard .help-btn-by-Marie-Pierre-Lessard {
+  border: none;
+  background-color: transparent;
+  /* Help icon smaller than logo because it has a thicker border, and it otherwise looks wrong. 
+  Visually, the thicker border gives more weight/more emphasis to the right side of the header.*/
+}
+.global-header-by-Marie-Pierre-Lessard .help-btn-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard {
+  width: 3rem;
+  height: 3rem;
+  /* padding-top: is to improve look of outline */
+  padding-top: 0.25rem;
+  fill: #6F55A0;
+  cursor: help;
+}
+.global-header-by-Marie-Pierre-Lessard .help-btn-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard:hover {
+  /* For some reason, the colour of the SVG doesn't change on focus. */
+  fill: #8B62D9;
+}
+.global-header-by-Marie-Pierre-Lessard .help-btn-by-Marie-Pierre-Lessard .help-icon-by-Marie-Pierre-Lessard:active {
+  /* For some reason, the colour of the SVG doesn't change on focus. */
+  fill: #DBC7FF;
 }
 
+/* TO DO: a mixin for the nav */
 /* The colours of the main navigation DO NOT change in dark mode */
 .main-nav-container-by-Marie-Pierre-Lessard {
   background-color: #6F55A0;
@@ -239,6 +219,13 @@ Probably set sizes in header in vw. */
 .urgent-important-matrix-by-Marie-Pierre-Lessard .priority-by-Marie-Pierre-Lessard li {
   margin-block: 0.5rem;
 }
+.urgent-important-matrix-by-Marie-Pierre-Lessard .priority-by-Marie-Pierre-Lessard h2 {
+  font-weight: 400;
+  font-size: 1rem;
+  color: #000000;
+  /* Standard browser margins overridden to limit distance between h2 and the border above. */
+  margin-block: 0.5rem;
+}
 .urgent-important-matrix-by-Marie-Pierre-Lessard .priority--1-by-Marie-Pierre-Lessard {
   background-color: #8B62D9;
 }
@@ -262,8 +249,7 @@ Probably set sizes in header in vw. */
   background-color: #FFF646;
   border-radius: 9px;
   margin-block: 1.33rem;
-  padding-block: 0.5rem;
-  padding-inline: 0.5rem;
+  padding: 0.5rem;
 }
 .intro-msg-by-Marie-Pierre-Lessard .align-svg-with-text-by-Marie-Pierre-Lessard {
   /* When I applied display: flex; to the span elements that contain parentheses (also in span elements), each with a SVG to align with parentheses according to the same principle that I discovered for the middle footer button, the parent span element behaved like a block-level element. It was necessary to choose display: inline-flex; to make sure that the span element was not treated like a block-level element.
@@ -286,6 +272,10 @@ Probably set sizes in header in vw. */
   bottom: 0;
 }
 .global-footer-by-Marie-Pierre-Lessard button {
+  background-color: #6F55A0;
+  color: #FFF646;
+  padding-block: 0.5rem;
+  cursor: pointer;
   /* Without display: flex; (or display: inline-flex;) and align-items: center; the SVGs sat higher than the slash, i.e. the SVGs were floating above the baseline. 
   The text has to be in a span element, otherwise this doesn't work. 
   I couldn't find how to do this on the Internet, so I discovered the solution through experimentation. 
@@ -311,14 +301,12 @@ Probably set sizes in header in vw. */
   fill: #6F55A0;
 }
 
+/* TO DO: to make blocks reusable, these declarations should be turned into mixins and variables and used inside of each relevant block. 
+Here, I need variants for light vs. dark mode inside of a list. */
 /* TO DO: a mixin is useful in such a situation, where I want all the declarations of the global footer/... inside of its block. */
 .global-footer-by-Marie-Pierre-Lessard button,
 .modal-by-Marie-Pierre-Lessard button {
-  background-color: #6F55A0;
   border: 1px solid #F8FFFD;
-  color: #FFF646;
-  padding-block: 0.5rem;
-  cursor: pointer;
 }
 
 .modal-by-Marie-Pierre-Lessard {
@@ -328,6 +316,22 @@ Probably set sizes in header in vw. */
   width: 84%;
   padding: 0;
   /* Maybe TO DO: active effect on close button */
+}
+.modal-by-Marie-Pierre-Lessard a {
+  color: #000000;
+}
+.modal-by-Marie-Pierre-Lessard a:hover,
+.modal-by-Marie-Pierre-Lessard a:focus {
+  color: #6F55A0;
+}
+.modal-by-Marie-Pierre-Lessard a:active {
+  color: #FFF646;
+}
+.modal-by-Marie-Pierre-Lessard button {
+  background-color: #6F55A0;
+  color: #FFF646;
+  padding-block: 0.5rem;
+  cursor: pointer;
 }
 .modal-by-Marie-Pierre-Lessard .close-btn-by-Marie-Pierre-Lessard {
   height: 3rem;
@@ -421,6 +425,7 @@ Probably set sizes in header in vw. */
 }
 
 /* #region Rollover effects */
+/* TO DO: is there a way to make this DRYer in SCSS? It's more repetitive if I move these in the block of each class. */
 .global-footer-by-Marie-Pierre-Lessard button:hover,
 .global-footer-by-Marie-Pierre-Lessard button:focus,
 .modal-by-Marie-Pierre-Lessard button:hover,
@@ -501,26 +506,16 @@ MAYBE TO DO or try in some other assignment: Since 2024, it is possible to use t
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__rectangle1-by-Marie-Pierre-Lessard {
   fill: #8B62D9;
 }
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__rectangle2-by-Marie-Pierre-Lessard {
-  stroke: #6DFFE7;
-}
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path1-by-Marie-Pierre-Lessard {
-  fill: #6DFFE7;
-}
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path2-by-Marie-Pierre-Lessard {
-  fill: #6DFFE7;
-}
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path3-by-Marie-Pierre-Lessard {
-  fill: #6DFFE7;
-}
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path4-by-Marie-Pierre-Lessard {
-  fill: #6DFFE7;
-}
-.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path5-by-Marie-Pierre-Lessard {
-  stroke: #6DFFE7;
-}
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__rectangle2-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path5-by-Marie-Pierre-Lessard,
 .dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard line {
   stroke: #6DFFE7;
+}
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path1-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path2-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path3-by-Marie-Pierre-Lessard,
+.dark-mode-by-Marie-Pierre-Lessard .logo-by-Marie-Pierre-Lessard .logo__path4-by-Marie-Pierre-Lessard {
+  fill: #6DFFE7;
 }
 .dark-mode-by-Marie-Pierre-Lessard h1,
 .dark-mode-by-Marie-Pierre-Lessard h2,
