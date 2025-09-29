@@ -1,4 +1,5 @@
 @charset "UTF-8";
+/* TO DO: CSS selectors no longer seem to work. See select selector. */
 /* The use of the @import rule for partials is deprecated in SASS/SCSS, 
 but not to import fonts in SCCS since that is a rule that exists in CSS.
 HOWEVER: 
