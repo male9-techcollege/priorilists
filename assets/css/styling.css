@@ -19,6 +19,11 @@ the @import has to come after @use rules because @use is more important than @im
 /* #region Global styling + rollover effects */
 /* TO DO: mixins with lists for light vs. dark mode 
 In these buttons, the border has a diff. colour. */
+/* .copyright-by-Marie-Pierre-Lessard is inside of main */
+.copyright-by-Marie-Pierre-Lessard {
+  margin-block: 1.33rem;
+}
+
 /* MAYBE TO DO: 
 Any missing ACCESSIBLE rollover effects in modals and dynamic sections? (two sets: one for light mode and one for dark mode)
 More responsiveness 
@@ -68,11 +73,6 @@ h3 {
 }
 
 /* #endregion Global styling */
-/* .copyright-by-Marie-Pierre-Lessard is inside of main */
-.copyright-by-Marie-Pierre-Lessard {
-  margin-block: 1.33rem;
-}
-
 .global-header-by-Marie-Pierre-Lessard {
   display: flex;
   flex-direction: row;

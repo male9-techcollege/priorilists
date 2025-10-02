@@ -1,3 +1,50 @@
+/* Ref. for the following notes:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+
+This is a default import (a default function does not require curly brackets, and I could have renamed it without using "as"). */
+import displayGetStartedByMariePierreLessard from "./modules/intro-msg.js";
+/* This is a namespace import: */
+import * as helpModalFunctions from "./modules/global-header.js";
+/* This is a named import */
+/* MAYBE TO DO */
+// import {name1, name2} "./modules/sth.js";
+/* MAYBE TO DO: This is a module imported for its side effects (): */
+// import "./modules/sth.js";
+
+/* For a potential demonstration on AirTame (TO DO: put in relevant MVC sections later): */
+const btnOpenHelpModalByMariePierreLessard = document.getElementById("openHelpModalByMariePierreLessard");
+const btnCloseHelpModalByMariePierreLessard = document.getElementById("closeHelpModalByMariePierreLessard");
+
+/* Q: Why does an event listener fail to work if openHelpModalByMariePierreLessard() is passed as 
+an argument instead of the equivalent of 
+() => {openHelpModalByMariePierreLessard()} ?
+A: Syntax: addEventListener("event", function, ...)
+When a function is called, it represents the return value of the executed function, it is NOT
+a function to be executed IF the event is fired, so open-modal and close-modal functions were both run 
+as soon as the window was open, and the event listener received the returned value of these functions, 
+which must be (name of modal), display: block; or display: none; 
+As a consequence, the dialog did not open, but the console logs showed that the functions were run. 
+Source with the technical explanation:
+"The second argument of addEventListener expects to receive a function. (...)
+When you invoke a function, you are running the function and receiving its return value in its place. 
+Unless your function returns another function, addEventListener won't have a function to fire when the click event happens. 
+Instead it will have undefined if there is no return statement, or some other value (e.g. a number, a boolean, etc) 
+which it can't do anything with. (...)
+Calling myFunction() means you are passing the return value of myFunction into a place that expects 
+a function. This function call gets evaluated when the event listener is added right away, 
+and again, unless it returns a function, the event listener will not have a function to fire when you click."
+https://www.reddit.com/r/learnjavascript/comments/qv7mrf/event_listener_triggering_by_itself */
+btnOpenHelpModalByMariePierreLessard.addEventListener("click", () => {
+    /* Since all functions of the global-header module are imported in the namespace helpModalFunctions,
+    the default function cannot be called by its name, just by the keyword default! */
+    helpModalFunctions.default();
+});
+btnCloseHelpModalByMariePierreLessard.addEventListener("click", () => {
+    helpModalFunctions.closeHelpModalByMariePierreLessard();
+});
+
+
+
 /* Potential references in school work/materials: 
 hf-websider/huskeseddel-mc-med-kasper
 hf-websider/template-strings-mc-with-kasper and github/template-strings-codelab
@@ -82,22 +129,39 @@ const InterruptionUlByMariePierreLessard = document.getElementById("priority3ul"
 const distractionUlByMariePierreLessard = document.getElementById("priority4ul");
 
 /* Variables for modals */
-const helpModalByMariePierreLessard = document.getElementById("helpModalByMariePierreLessard");
 const categoryCreationModalByMariePierreLessard = document.getElementById("catCreationModalByMariePierreLessard");
 const categoryEditingAndDeletionModalByMariePierreLessard = document.getElementById("catEditingModalByMariePierreLessard");
 const taskCreationModalByMariePierreLessard = document.getElementById("taskCreationModalByMariePierreLessard");
 const taskEditingAndDeletionModalByMariePierreLessard = document.getElementById("taskEditingModalByMariePierreLessard");
 
-/* Variables for buttons, inside and outside of modals */
+/* Variables for buttons, inside and outside of modals (at least one is in an imported module) */
 /* Open and close */
 const btnToggleColourSchemeByMariePierreLessard = document.getElementById("toggleColourSchemeByMariePierreLessard");
-const btnOpenHelpModalByMariePierreLessard = document.getElementById("openHelpModalByMariePierreLessard");
-const btnCloseHelpModalByMariePierreLessard = document.getElementById("closeHelpModalByMariePierreLessard");
 const btnOpenCategoryCreationModalByMariePierreLessard = document.getElementById("openCategoryCreationModalByMariePierreLessard");
 const btnCloseCategoryCreationModalByMariePierreLessard = document.getElementById("closeCategoryCreationModalByMariePierreLessard");
 const btnOpenTaskCreationModalByMariePierreLessard = document.getElementById("openTaskCreationModalByMariePierreLessard");
 const btnCloseTaskCreationModalByMariePierreLessard = document.getElementById("closeTaskCreationModalByMariePierreLessard");
-/* TO DO: problem! I can't give the same ID to all of these Open buttons. Bo explained that we can use switch to have one function triggered by diff. things.
+/* TO DO: 
+1st problem: 
+I have temporary buttons in the HTML file to avoid the error message due to event listeners triggered by non-existing buttons (dynamically created buttons).
+This error is thrown in sloppy mode as well.
+The easiest solution must be to create such buttons in the view function following the initialisation function, whether there is user data saved in local storage or just empty strings.
+
+2nd problem:
+the 2 variables defined with let for buttons need to designate the Edit btn on which the user clicked.
+Options:
+reassign value of 
+btnOpenCategoryEditingAndDeletionModalByMariePierreLessard
+and
+btnOpenTaskEditingAndDeletionModalByMariePierreLessard
+to the edit button on which the user clicked. Bo said that the dynamically created buttons can have an ID that reflects the displayed object that it allows to modify (the ID of the object in the string saved to local storage). 
+OR
+Bo explained that we can use switch to have one function triggered by diff. things (but it doesn't seem to apply here).
+OR
+The event listener on the buttons created dynamically could ...
+
+TEMPORARY variables defined by let -- just to avoid errors in the console. See temporary buttons in the HTML file.
+Note: I can't give the same ID to all of these Open buttons. 
 However, there is only one Close button in each dialog. */
 let btnOpenCategoryEditingAndDeletionModalByMariePierreLessard = document.getElementById("openCategoryEditingAndDeletionModalByMariePierreLessard");
 const btnCloseCategoryEditingAndDeletionModalByMariePierreLessard = document.getElementById("closeCategoryEditingAndDeletionModalByMariePierreLessard");
@@ -110,9 +174,6 @@ const btnCreateTaskByMariePierreLessard = document.getElementById("createTaskByM
 const btnEditTaskByMariePierreLessard = document.getElementById("editTaskByMariePierreLessard");
 
 
-/* Variables for dynamic message with instructions to new users */
-const introMsgContainerByMariePierreLessard = document.getElementById("introMsgByMariePierreLessard");
-const introMsgByMariePierreLessard = `To get started, click on an icon to either add a task category <span class="align-svg-with-text-by-Marie-Pierre-Lessard"><span>(</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M560-320h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z"/></svg><span>)</span></span> or a task <span class="align-svg-with-text-by-Marie-Pierre-Lessard"><span>(</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M440-240h80v-120h120v-80H520v-120h-80v120H320v80h120v120ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg><span>)</span></span>.`;
 
 /* Controller-code variables */
 
@@ -348,14 +409,6 @@ btnToggleColourSchemeByMariePierreLessard.addEventListener("click", function tog
     saveUserPreferencesByMariePierreLessard();
 });
 
-btnOpenHelpModalByMariePierreLessard.addEventListener("click", function openHelpModalByMariePierreLessard() {
-    helpModalByMariePierreLessard.showModal();
-});
-
-btnCloseHelpModalByMariePierreLessard.addEventListener("click", function closeHelpModalByMariePierreLessard() {
-    helpModalByMariePierreLessard.close();
-});
-
 btnOpenCategoryCreationModalByMariePierreLessard.addEventListener("click", function openCategoryCreationModalByMariePierreLessard() {
     categoryCreationModalByMariePierreLessard.showModal();
 });
@@ -388,16 +441,6 @@ btnCloseTaskEditingAndDeletionModalByMariePierreLessard.addEventListener("click"
     taskEditingAndDeletionModalByMariePierreLessard.close();
 });
 
-
-/* V */
-/* The function displayGetStartedByMariePierreLessard() {};
-follows createEmptyDataSetByMariePierreLessard() */
-function displayGetStartedByMariePierreLessard() {
-    /* If the class is in the DOM, the div is always visible because of the padding. */
-    introMsgContainerByMariePierreLessard.classList.add("intro-msg-by-Marie-Pierre-Lessard");
-    introMsgContainerByMariePierreLessard.innerHTML = introMsgByMariePierreLessard;
-    displayDataSetByMariePierreLessard();
-};
 
 /* V */
 /* TO DO: 

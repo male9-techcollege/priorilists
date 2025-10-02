@@ -1,0 +1,22 @@
+@use "variables";
+
+.intro-msg-by-Marie-Pierre-Lessard {
+    background-color: variables.$clr-CTA-yellow;
+    border-radius: 9px;
+    margin-block: variables.$regular-negative-space;
+    padding: variables.$x-small-negative-space;
+
+    .align-svg-with-text-by-Marie-Pierre-Lessard {
+        /* When I applied display: flex; to the span elements that contain parentheses (also in span elements), each with a SVG to align with parentheses according to the same principle that I discovered for the middle footer button, the parent span element behaved like a block-level element. It was necessary to choose display: inline-flex; to make sure that the span element was not treated like a block-level element.
+        The footer button (also an inline element) did not start behaving like a block element when I turned it into a flexbox, but maybe that is because browsers are fault-tolerant, so I replaced display: flex; by display: inline-flex; in the footer as well. 
+        See the following source about display: inline-*, such as display: inline-flex; and display: inline-grid; : 
+        https://stackoverflow.com/questions/24313271/display-property-differences-for-inline-something */
+        display: inline-flex;
+        flex-direction: row;
+    }
+
+    svg {
+        height: 1rem;
+    }
+}
+

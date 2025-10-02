@@ -1,0 +1,69 @@
+@use "variables";
+
+.global-header-by-Marie-Pierre-Lessard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-inline: variables.$small-negative-space;
+
+    /* TO DO: Different clients would have different logos, so is it really a good strategy to put the logo and help icon in the block of .global-header-by-Marie-Pierre-Lessard? */
+    /* #region Logo in light mode: SVG and its children */
+    /* .logo-by-Marie-Pierre-Lessard is a SVG file */
+    /* MAYBE TO DO: on small mobiles: 40px or 3.33rem; eventually replace by more responsive measurements 
+    Probably set sizes in header in vw. */
+    /* Note: I thought that I had to change the measurements in .logo__rectangle1-by-Marie-Pierre-Lessard and .logo__rectangle2-by-Marie-Pierre-Lessard, but removing the inline sizing of the SVG element is sufficient to control the size of the logo. */
+    .logo-by-Marie-Pierre-Lessard {
+        height: 3.33rem;
+        width: 3.33rem;
+        /* padding-inline and padding-top: are to improve look of outline */
+        padding-inline: variables.$x-small-negative-space;
+        padding-top: variables.$xx-small-negative-space;
+
+        .logo__rectangle1-by-Marie-Pierre-Lessard {
+            fill: variables.$clr-base-almost-white;
+        }
+
+        .logo__rectangle2-by-Marie-Pierre-Lessard,
+        .logo__path5-by-Marie-Pierre-Lessard,
+        line {
+            stroke: variables.$clr-accent-dark-purple;
+        }
+
+        .logo__path1-by-Marie-Pierre-Lessard,
+        .logo__path2-by-Marie-Pierre-Lessard,
+        .logo__path3-by-Marie-Pierre-Lessard,
+        .logo__path4-by-Marie-Pierre-Lessard {
+            fill: variables.$clr-accent-dark-purple;
+        }
+    }
+
+    /* #endregion about logo in light mode */
+
+    /* MAYBE TO DO: for small mobiles: 36px, i.e. 3rem; eventually replace by more responsive measurements */
+    .help-btn-by-Marie-Pierre-Lessard {
+        border: none;
+        background-color: transparent;
+
+        /* Help icon smaller than logo because it has a thicker border, and it otherwise looks wrong. 
+        Visually, the thicker border gives more weight/more emphasis to the right side of the header.*/
+        .help-icon-by-Marie-Pierre-Lessard {
+            width: 3rem;
+            height: 3rem;
+            /* padding-top: is to improve look of outline */
+            padding-top: variables.$xx-small-negative-space;
+            fill: variables.$clr-accent-dark-purple;
+            cursor: help;
+        }
+
+        .help-icon-by-Marie-Pierre-Lessard:hover {
+            /* For some reason, the colour of the SVG doesn't change on focus. */
+            fill: variables.$clr-accent-purple-high-intensity;
+        }
+
+        .help-icon-by-Marie-Pierre-Lessard:active {
+            /* For some reason, the colour of the SVG doesn't change on focus. */
+            fill: variables.$clr-accent-purple-low-intensity;
+        }
+    }
+}
