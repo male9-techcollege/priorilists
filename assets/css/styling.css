@@ -372,7 +372,7 @@ Here, I need variants for light vs. dark mode inside of a list. */
   border-radius: 9px;
 }
 .modal-by-Marie-Pierre-Lessard form fieldset select {
-  /* For some reason, unlike Chrome, Opera does not find the internal styling attribute size="9" sufficient to make the select element tall.
+  /* For some reason, unlike Chrome, Opera does not find the inline styling attribute size="9" sufficient to make the select element tall.
   That browser requires both this attribute and a corresponding CSS styling. 
   The select element was visible as a line on which the user could focus, but even the focus didn't make the select element expand.
   It took me a really long time to figure this out. I checked many other potential reasons before this one.

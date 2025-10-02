@@ -88,9 +88,31 @@ const categoryEditingAndDeletionModalByMariePierreLessard = document.getElementB
 const taskCreationModalByMariePierreLessard = document.getElementById("taskCreationModalByMariePierreLessard");
 const taskEditingAndDeletionModalByMariePierreLessard = document.getElementById("taskEditingModalByMariePierreLessard");
 
+/* Variables for buttons, inside and outside of modals */
+/* Open and close */
+const btnToggleColourSchemeByMariePierreLessard = document.getElementById("toggleColourSchemeByMariePierreLessard");
+const btnOpenHelpModalByMariePierreLessard = document.getElementById("openHelpModalByMariePierreLessard");
+const btnCloseHelpModalByMariePierreLessard = document.getElementById("closeHelpModalByMariePierreLessard");
+const btnOpenCategoryCreationModalByMariePierreLessard = document.getElementById("openCategoryCreationModalByMariePierreLessard");
+const btnCloseCategoryCreationModalByMariePierreLessard = document.getElementById("closeCategoryCreationModalByMariePierreLessard");
+const btnOpenTaskCreationModalByMariePierreLessard = document.getElementById("openTaskCreationModalByMariePierreLessard");
+const btnCloseTaskCreationModalByMariePierreLessard = document.getElementById("closeTaskCreationModalByMariePierreLessard");
+/* TO DO: problem! I can't give the same ID to all of these Open buttons. Bo explained that we can use switch to have one function triggered by diff. things.
+However, there is only one Close button in each dialog. */
+let btnOpenCategoryEditingAndDeletionModalByMariePierreLessard = document.getElementById("openCategoryEditingAndDeletionModalByMariePierreLessard");
+const btnCloseCategoryEditingAndDeletionModalByMariePierreLessard = document.getElementById("closeCategoryEditingAndDeletionModalByMariePierreLessard");
+let btnOpenTaskEditingAndDeletionModalByMariePierreLessard = document.getElementById("openTaskEditingAndDeletionModalByMariePierreLessard");
+const btnCloseTaskEditingAndDeletionModalByMariePierreLessard = document.getElementById("closeTaskEditingAndDeletionModalByMariePierreLessard");
+/* Other buttons */
+const btnCreateCategoryByMariePierreLessard = document.getElementById("createCategoryByMariePierreLessard");
+const btnEditCategoryByMariePierreLessard = document.getElementById("editCategoryByMariePierreLessard");
+const btnCreateTaskByMariePierreLessard = document.getElementById("createTaskByMariePierreLessard");
+const btnEditTaskByMariePierreLessard = document.getElementById("editTaskByMariePierreLessard");
+
+
 /* Variables for dynamic message with instructions to new users */
-const introMsgByMariePierreLessard = `To get started, click on an icon to either add a task category <span class="align-svg-with-text-by-Marie-Pierre-Lessard"><span>(</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M560-320h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z"/></svg><span>)</span></span> or a task <span class="align-svg-with-text-by-Marie-Pierre-Lessard"><span>(</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M440-240h80v-120h120v-80H520v-120h-80v120H320v80h120v120ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg><span>)</span></span>.`;
 const introMsgContainerByMariePierreLessard = document.getElementById("introMsgByMariePierreLessard");
+const introMsgByMariePierreLessard = `To get started, click on an icon to either add a task category <span class="align-svg-with-text-by-Marie-Pierre-Lessard"><span>(</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M560-320h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z"/></svg><span>)</span></span> or a task <span class="align-svg-with-text-by-Marie-Pierre-Lessard"><span>(</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M440-240h80v-120h120v-80H520v-120h-80v120H320v80h120v120ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg><span>)</span></span>.`;
 
 /* Controller-code variables */
 
@@ -166,7 +188,7 @@ function validateCategoryNameByMariePierreLessard(input) {
     return validCategoryNameByMariePierreLessard.test(input);
 };
 
-function createTaskByMariePierreLessard() {
+btnCreateTaskByMariePierreLessard.addEventListener("click", function createTaskByMariePierreLessard() {
     const taskOriginalNameByMariePierreLessard = document.getElementById("tonByMariePierreLessard");
     const taskOriginalDetailsByMariePierreLessard = document.getElementById("todByMariePierreLessard");
     const taskPriorityLevelByMariePierreLessard = document.getElementById("tlpByMariePierreLessard");
@@ -271,9 +293,9 @@ distractionArrayByMariePierreLessard
 */
 
     };
-};
+});
 
-function editTaskByMariePierreLessard() {
+btnEditTaskByMariePierreLessard.addEventListener("click", function editTaskByMariePierreLessard() {
     const newTaskNameByMariePierreLessard = document.getElementById("ntnByMariePierreLessard");
     const newTaskDetailsByMariePierreLessard = document.getElementById("ntdByMariePierreLessard");
 
@@ -281,9 +303,9 @@ function editTaskByMariePierreLessard() {
     validateTaskDetailsByMariePierreLessard(newTaskDetailsByMariePierreLessard.value);
 
     /* TO DO: reuse code from createTaskByMariePierreLessard() */
-};
+});
 
-function createCategoryByMariePierreLessard() {
+btnCreateCategoryByMariePierreLessard.addEventListener("click", function createCategoryByMariePierreLessard() {
     const catOriginalNameByMariePierreLessard = document.getElementById("conByMariePierreLessard");
     const catPriorityLevelByMariePierreLessard = document.getElementById("clpByMariePierreLessard");
 
@@ -302,70 +324,70 @@ function createCategoryByMariePierreLessard() {
 
         // catPriorityLevelByMariePierreLessard.value = categoryToSaveByMariePierreLessard.priorityLevel ??
     };
-};
+});
 
-function editCategoryByMariePierreLessard() {
+btnEditCategoryByMariePierreLessard.addEventListener("click", function editCategoryByMariePierreLessard() {
     const newCategoryNameByMariePierreLessard = document.getElementById("ncnByMariePierreLessard");
 
     validateCategoryNameByMariePierreLessard(newCategoryNameByMariePierreLessard.value.trim());
 
     /* TO DO: reuse code from createCategoryByMariePierreLessard() */
-};
+});
 
 /* #endregion about model code */
 
 /* #region VIEW CODE */
 
 /* This dark-to-light-mode switch did not work in my first attempts. 
-Applying this function to the HTML element (root element) does NOT work. I don't know why. */
-function toggleColourSchemeByMariePierreLessard() {
+Applying this function to the HTML element (root element) instead of body does NOT work. I don't know why. */
+btnToggleColourSchemeByMariePierreLessard.addEventListener("click", function toggleColourSchemeByMariePierreLessard() {
     document.body.classList.toggle("dark-mode-by-Marie-Pierre-Lessard");
     // Alternatively: 
     // const bodyElementByMariePierreLessard = document.body;
     // bodyElementByMariePierreLessard.classList.toggle("dark-mode-by-Marie-Pierre-Lessard");
     saveUserPreferencesByMariePierreLessard();
-};
+});
 
-/* Checked: all open and close functions of 5 modals */
-function openHelpModalByMariePierreLessard() {
+btnOpenHelpModalByMariePierreLessard.addEventListener("click", function openHelpModalByMariePierreLessard() {
     helpModalByMariePierreLessard.showModal();
-};
+});
 
-function closeHelpModalByMariePierreLessard() {
+btnCloseHelpModalByMariePierreLessard.addEventListener("click", function closeHelpModalByMariePierreLessard() {
     helpModalByMariePierreLessard.close();
-};
+});
 
-function openCategoryCreationModalByMariePierreLessard() {
+btnOpenCategoryCreationModalByMariePierreLessard.addEventListener("click", function openCategoryCreationModalByMariePierreLessard() {
     categoryCreationModalByMariePierreLessard.showModal();
-};
+});
 
-function closeCategoryCreationModalByMariePierreLessard() {
+btnCloseCategoryCreationModalByMariePierreLessard.addEventListener("click", function closeCategoryCreationModalByMariePierreLessard() {
     categoryCreationModalByMariePierreLessard.close();
-};
+});
 
-function openCategoryEditingAndDeletionModalByMariePierreLessard() {
+btnOpenCategoryEditingAndDeletionModalByMariePierreLessard.addEventListener("click", function openCategoryEditingAndDeletionModalByMariePierreLessard() {
     categoryEditingAndDeletionModalByMariePierreLessard.showModal();
-};
+});
 
-function closeCategoryEditingAndDeletionModalByMariePierreLessard() {
+btnCloseCategoryEditingAndDeletionModalByMariePierreLessard.addEventListener("click", function closeCategoryEditingAndDeletionModalByMariePierreLessard() {
     categoryEditingAndDeletionModalByMariePierreLessard.close();
-};
+});
 
-function openTaskCreationModalByMariePierreLessard() {
+btnOpenTaskCreationModalByMariePierreLessard.addEventListener("click", function openTaskCreationModalByMariePierreLessard() {
     taskCreationModalByMariePierreLessard.showModal();
-};
+});
 
-function closeTaskCreationModalByMariePierreLessard() {
+btnCloseTaskCreationModalByMariePierreLessard.addEventListener("click", function closeTaskCreationModalByMariePierreLessard() {
     taskCreationModalByMariePierreLessard.close();
-};
+});
 
-function openTaskEditingAndDeletionModalByMariePierreLessard() {
+btnOpenTaskEditingAndDeletionModalByMariePierreLessard.addEventListener("click", function openTaskEditingAndDeletionModalByMariePierreLessard() {
     taskEditingAndDeletionModalByMariePierreLessard.showModal();
-};
+});
 
-function closeTaskEditingAndDeletionModalByMariePierreLessard() {
+btnCloseTaskEditingAndDeletionModalByMariePierreLessard.addEventListener("click", function closeTaskEditingAndDeletionModalByMariePierreLessard() {
     taskEditingAndDeletionModalByMariePierreLessard.close();
-};
+});
+
 
 /* V */
 /* The function displayGetStartedByMariePierreLessard() {};
