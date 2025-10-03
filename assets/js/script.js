@@ -44,11 +44,23 @@ https://www.w3schools.com/js/js_scope.asp
 
 /* For a potential demonstration on AirTame (TO DO: put in relevant MVC sections later): */
 /* Ref. for the following notes:
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import */
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import 
+
+Alternative way to set a default function in a module to be imported (not this file):
+Q: What are ES modules?
+"ES Modules (ESM) is the official standard format for packaging JavaScript code for reuse. (...)
+function main() {
+    console.log('Main function');
+  }
+export { main as default }; (...)
+best practices (...)
+Always include file extensions in your import statements for local files:"
+https://www.w3schools.com/nodejs/nodejs_modules_esm.asp
+*/
 
 /* This is an example of named import (unused in this module; 
-in theory, the yellow container could be used to display other messages). 
-The constant for the div container is being renamed.
+in theory, the yellow container could be used to display other messages). It's the constant for the div container is being renamed.
+Named imports can be renamed to avoid naming conflicts acc. to https://www.w3schools.com/nodejs/nodejs_modules_esm.asp
 
 import { introMsgContainerByMariePierreLessard as msgContainerByMariePierreLessard } "./modules/intro-msg.js";
 
@@ -73,7 +85,7 @@ The following DOES NOT work. The console says that the function name would need 
 which is not the point! 
 import { displayGetStartedByMariePierreLessard as newFunctionName } from "./modules/intro-msg.js";
 */
-/* This is a namespace import: */
+/* This is a namespace import (all named exports are imported as an object): */
 import * as helpModalFunctions from "./modules/global-header.js";
 /* MAYBE TO DO: This is a module imported for its side effects (): */
 // import "./modules/sth.js";
