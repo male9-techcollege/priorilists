@@ -1,17 +1,83 @@
-/* Ref. for the following notes:
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+/* Udfordringer i implementeringen af JavaScript modules:
+1. Se forskellige "import declarations" (inkl. implementeringen af en "namespace import", specielt ang. en default callback)
+2. Forskellen mellem en funktion og en "callback" (en "callback" kan ikke bruges som "argument", når syntaksen kræver en function).
+3. Onsdag: med <script type="module"> er "strict mode" indbygget.
+"Strict mode" vs. "non-strict mode" (uformelt kaldt "sloppy mode"):
+3.1. Man kan implementere "strict mode" uden JS-moduler ved at skrive det følgende på toppen af ens monolitisk script:
+"use strict";
+3.2 I "strict mode" får man flere fejl og advarsler i konsolen.  
+3.2.1 Efter man har rettet dem, kan ens kode køre fejlfrit i 
+alle browsers, da ens egen browsers "fault tolerance" ikke længere bruges. Forskellige browsers tolererer nemlig forskellige fejl, 
+og det kan være, at nogle browsers tolerer igen.
+3.2.2 I "strict mode" er der desuden nogle undtagelser ("exceptions"). For eksempel må man ikke bruge "underclared variables"
+(variabler, som man dannede uden at bruge const, let eller var). 
+4. Torsdag: "window scope" vs. "module scope"
+"Event listeners" i HTML-filen (en "onclick attribute" + en "callback") fungerer ikke, når man bruger JS-moduler.
+FORDI:
+JS-variabler er tilgængelige (synlige) indenfor en vis "scope" (deres "scope").
+https://www.w3schools.com/js/js_scope.asp
+" JavaScript has four different scopes:
+- Global scope: available across all code.
+- Module scope: available inside the current module.
+- Function scope: available inside the current function.
+- Block scope: available inside the current block (i.e. between curly braces {}). (...)
+let x = 1; // global scope
+console.log(x); // will print 1
+function exampleFunction() {
+  let x = 2; // function scope
+  if (true) {
+    let x = 3; // block scope
+    console.log(x); // will print 3
+  }
+  console.log(x); // will print 2
+}
+exampleFunction();"
+https://sentry.io/answers/scope-in-javascript
+- "Global scope" +/-= "window scope" ("With JavaScript, the global scope is the JavaScript environment. 
+                                   In HTML, the global scope is the window object. (...)
+                                   Global variables defined with the var keyword belong to the window object: (...)
+                                   Global variables defined with the let keyword do not belong to the window object:")
+- "Function scope" = "local scope" ("function variables" = "local variables")
+https://www.w3schools.com/js/js_scope.asp
+*/
 
-This is a default import (a default function does not require curly brackets, and I could have renamed it without using "as"). */
+
+/* For a potential demonstration on AirTame (TO DO: put in relevant MVC sections later): */
+/* Ref. for the following notes:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import */
+
+/* This is an example of named import (unused in this module; 
+in theory, the yellow container could be used to display other messages). 
+The constant for the div container is being renamed.
+
+import { introMsgContainerByMariePierreLessard as msgContainerByMariePierreLessard } "./modules/intro-msg.js";
+
+Since I have to import the default function from the same file, VSC flags a problem unless I combine both imports as follows.
+*/
+/* This is a default import + named import 
+(a default function does not require curly brackets, and I could have renamed it without using "as"). */
+import displayGetStartedByMariePierreLessard, { introMsgContainerByMariePierreLessard as msgContainerByMariePierreLessard } from "./modules/intro-msg.js";
+/* Example of pure default import (without added named import):
+
 import displayGetStartedByMariePierreLessard from "./modules/intro-msg.js";
+
+One could also write:
+
+import newFunctionName from "./modules/intro-msg.js";
+
+OR:
+
+import { default as newFunctionName } from "./modules/intro-msg.js";
+
+The following DOES NOT work. The console says that the function name would need to be changed in intro-msg.js as well, 
+which is not the point! 
+import { displayGetStartedByMariePierreLessard as newFunctionName } from "./modules/intro-msg.js";
+*/
 /* This is a namespace import: */
 import * as helpModalFunctions from "./modules/global-header.js";
-/* This is a named import */
-/* MAYBE TO DO */
-// import {name1, name2} "./modules/sth.js";
 /* MAYBE TO DO: This is a module imported for its side effects (): */
 // import "./modules/sth.js";
 
-/* For a potential demonstration on AirTame (TO DO: put in relevant MVC sections later): */
 const btnOpenHelpModalByMariePierreLessard = document.getElementById("openHelpModalByMariePierreLessard");
 const btnCloseHelpModalByMariePierreLessard = document.getElementById("closeHelpModalByMariePierreLessard");
 
@@ -128,13 +194,13 @@ const planningUlByMariePierreLessard = document.getElementById("priority2ul");
 const InterruptionUlByMariePierreLessard = document.getElementById("priority3ul");
 const distractionUlByMariePierreLessard = document.getElementById("priority4ul");
 
-/* Variables for modals */
+/* Variables for modals (at least one is in an imported module) */
 const categoryCreationModalByMariePierreLessard = document.getElementById("catCreationModalByMariePierreLessard");
 const categoryEditingAndDeletionModalByMariePierreLessard = document.getElementById("catEditingModalByMariePierreLessard");
 const taskCreationModalByMariePierreLessard = document.getElementById("taskCreationModalByMariePierreLessard");
 const taskEditingAndDeletionModalByMariePierreLessard = document.getElementById("taskEditingModalByMariePierreLessard");
 
-/* Variables for buttons, inside and outside of modals (at least one is in an imported module) */
+/* Variables for buttons, inside and outside of modals */
 /* Open and close */
 const btnToggleColourSchemeByMariePierreLessard = document.getElementById("toggleColourSchemeByMariePierreLessard");
 const btnOpenCategoryCreationModalByMariePierreLessard = document.getElementById("openCategoryCreationModalByMariePierreLessard");
@@ -173,8 +239,6 @@ const btnEditCategoryByMariePierreLessard = document.getElementById("editCategor
 const btnCreateTaskByMariePierreLessard = document.getElementById("createTaskByMariePierreLessard");
 const btnEditTaskByMariePierreLessard = document.getElementById("editTaskByMariePierreLessard");
 
-
-
 /* Controller-code variables */
 
 let errorsByMariePierreLessard = [];
@@ -210,7 +274,8 @@ The above source goes on to talk about other types of storage, some of which wer
 - the cache API
 */
 
-/* MAYBE TO DO: merge this with user-defined categories and tasks like in callback-opgave (but the current code seems to work fine)
+/* MAYBE TO DO: merge this with user-defined categories and tasks like in callback-opgave 
+(but the current code seems to work fine)
 */
 function saveUserPreferencesByMariePierreLessard() {
     if (document.body.classList.contains("dark-mode-by-Marie-Pierre-Lessard")) {
